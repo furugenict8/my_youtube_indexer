@@ -16,7 +16,9 @@ class MyApp extends StatelessWidget {
         appBar: AppBar(
           title: const Text('youtube player demo'),
         ),
-        body: Column(),
+        body: Container(
+          child: Column(),
+        ),
         // This trailing comma makes auto-formatting nicer for build methods.
       ),
     );
