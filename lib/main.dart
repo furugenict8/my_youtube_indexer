@@ -17,6 +17,13 @@ class MyApp extends StatelessWidget {
           title: const Text('youtube player demo'),
         ),
         body: const YoutubePlayerFlutterExample(),
+        floatingActionButton: FloatingActionButton(
+            onPressed: () {
+              //TODO(自分): 押したら動画の現在時刻を取得して表示する,
+            },
+            tooltip: '押したら動画の現在時刻を取得して表示する',
+            child: const Icon(Icons.add),
+        ),
         // This trailing comma makes auto-formatting nicer for build methods.
       ),
     );
@@ -33,32 +40,6 @@ class YoutubePlayerFlutterExample extends StatelessWidget {
         controller: _controller,
         showVideoProgressIndicator: true,
         progressIndicatorColor: Colors.blueAccent,
-
-        // Adds custom top bar widgets.
-        topActions: <Widget>[
-          const SizedBox(width: 8),
-          Expanded(
-            child: Text(
-              _controller.metadata.title,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 18,
-              ),
-              overflow: TextOverflow.ellipsis,
-              maxLines: 1,
-            ),
-          ),
-          IconButton(
-            icon: const Icon(
-              Icons.settings,
-              color: Colors.white,
-              size: 25,
-            ),
-            onPressed: () {
-              // TODO 何か;
-            },
-          ),
-        ],
         onReady: () {
           // TODO　何か
         },
@@ -81,7 +62,7 @@ var _controller = YoutubePlayerController(
   initialVideoId: 'nPt8bK2gbaU',
   flags: const YoutubePlayerFlags(
     mute: false,
-    autoPlay: true,
+    autoPlay: false,
     disableDragSeek: false,
     loop: false,
     isLive: false,
