@@ -44,17 +44,34 @@ class YoutubePlayerFlutterExample extends StatelessWidget {
           // TODO　何か
         },
       ),
-      builder: (context, player) => Column(
-        children: [
-          // youtube_player_flutterのこと。
-          player,
-          const Text(
-              'ここにpositionを表示したい。とりあえず。'
-          ),
-          const Text(
-              'この下にListViewを表示したい。とりあえず。'
-          ),
-        ],
+      builder: (context, player) => Expanded(
+        child: Column(
+          children: [
+            // youtube_player_flutterのこと。
+            player,
+            const Text(
+                'ここにpositionを表示したい。とりあえず。'
+            ),
+            Expanded(
+              child: ListView(
+                children: const <Widget>[
+                  ListTile(
+                    leading: Icon(Icons.map),
+                    title: Text('Map'),
+                  ),
+                  ListTile(
+                    leading: Icon(Icons.photo_album),
+                    title: Text('Album'),
+                  ),
+                  ListTile(
+                    leading: Icon(Icons.phone),
+                    title: Text('Phone'),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
