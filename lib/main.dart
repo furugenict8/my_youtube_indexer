@@ -36,11 +36,10 @@ class MyApp extends StatelessWidget {
 
 
 class YoutubePlayerFlutterExample extends StatelessWidget {
-  const YoutubePlayerFlutterExample(
-      {Key? key,
-        required this.items
-      }
-      ) : super(key: key);
+  const YoutubePlayerFlutterExample({
+          Key? key,
+          required this.items,
+        }) : super(key: key);
   final List<String> items;
 
   @override
