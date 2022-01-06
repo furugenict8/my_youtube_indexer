@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
           title: const Text('youtube player demo'),
         ),
         body: YoutubePlayerFlutterExample(
-          items: List<String>.generate(10000, (i) => 'Item $i'),
+          items: List<String>.generate(10000, (i) => '動画のインデックス ${i+1}'),
         ),
         floatingActionButton: FloatingActionButton(
             onPressed: () {
@@ -65,7 +65,12 @@ class YoutubePlayerFlutterExample extends StatelessWidget {
                 itemCount: items.length,
                 itemBuilder: (context, index) {
                   return ListTile(
+                    leading: const Text('ここにサムネ'),
                     title: Text(items[index]),
+                    subtitle: const Text('再生される時間'),
+                    onTap: (){
+                      // TODO(me): 再生時間から動画が再生される,
+                    },
                   );
                 },
               ),
