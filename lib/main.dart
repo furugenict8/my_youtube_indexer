@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
+import 'next_page.dart';
+
 void main() {
   runApp(const MyApp(key: null,));
 }
@@ -54,7 +56,58 @@ class YoutubePlayerFlutterExample extends StatelessWidget {
             ),
             Expanded(
               child: ListView(
-                children: const <Widget>[
+                children: <Widget>[
+                  ListTile(
+                    leading: const Text(
+                      'ここに\n動画の\nサムネ表示',
+                      style: TextStyle(
+                        fontSize: 10,
+                      ),
+                    ),
+                    title: const Text('index表示'),
+                    trailing: const Icon(Icons.arrow_forward_ios),
+                    onTap: (){
+                      // TODO(me): 画面遷移のコードをかく
+                      Navigator.push<void>(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const NextPage(),
+                        ),
+                      );
+                    },
+                  ),
+                  ListTile(
+                    leading: Icon(Icons.photo_album),
+                    title: Text('Album'),
+                  ),
+                  ListTile(
+                    leading: Icon(Icons.phone),
+                    title: Text('Phone'),
+                  ),
+                  ListTile(
+                    leading: Icon(Icons.map),
+                    title: Text('Map'),
+                  ),
+                  ListTile(
+                    leading: Icon(Icons.photo_album),
+                    title: Text('Album'),
+                  ),
+                  ListTile(
+                    leading: Icon(Icons.phone),
+                    title: Text('Phone'),
+                  ),
+                  ListTile(
+                    leading: Icon(Icons.map),
+                    title: Text('Map'),
+                  ),
+                  ListTile(
+                    leading: Icon(Icons.photo_album),
+                    title: Text('Album'),
+                  ),
+                  ListTile(
+                    leading: Icon(Icons.phone),
+                    title: Text('Phone'),
+                  ),
                   ListTile(
                     leading: Icon(Icons.map),
                     title: Text('Map'),
