@@ -16,7 +16,9 @@ class MyApp extends StatelessWidget {
         appBar: AppBar(
           title: const Text('youtube player demo'),
         ),
-        body: const YoutubePlayerFlutterExample(),
+        body: YoutubePlayerFlutterExample(
+          items: List<String>.generate(10000, (i) => 'Item $i'),
+        ),
         floatingActionButton: FloatingActionButton(
             onPressed: () {
               //TODO(自分): 押したら動画の現在時刻を取得して表示する,
@@ -30,8 +32,13 @@ class MyApp extends StatelessWidget {
   }
 }
 
+
 class YoutubePlayerFlutterExample extends StatelessWidget {
-  const YoutubePlayerFlutterExample({Key? key}) : super(key: key);
+  const YoutubePlayerFlutterExample({
+          Key? key,
+          required this.items,
+        }) : super(key: key);
+  final List<String> items;
 
   @override
   Widget build(BuildContext context) {
@@ -53,23 +60,16 @@ class YoutubePlayerFlutterExample extends StatelessWidget {
                 'ここにpositionを表示したい。とりあえず。'
             ),
             Expanded(
-              child: ListView(
-                children: const <Widget>[
-                  ListTile(
-                    leading: Icon(Icons.map),
-                    title: Text('Map'),
-                  ),
-                  ListTile(
-                    leading: Icon(Icons.photo_album),
-                    title: Text('Album'),
-                  ),
-                  ListTile(
-                    leading: Icon(Icons.phone),
-                    title: Text('Phone'),
-                  ),
-                ],
+              child: ListView.builder(
+                shrinkWrap: true,
+                itemCount: items.length,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    title: Text(items[index]),
+                  );
+                },
               ),
-            ),
+            )
           ],
         ),
       ),
