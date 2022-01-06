@@ -51,6 +51,9 @@ class YoutubePlayerFlutterExample extends StatelessWidget {
           const Text(
               'ここにpositionを表示したい。とりあえず。'
           ),
+          const Text(
+              'この下にListViewを表示したい。とりあえず。'
+          ),
         ],
       ),
     );
