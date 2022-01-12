@@ -58,16 +58,18 @@ class YoutubePlayerFlutterExample extends StatelessWidget {
             player,
             const Text(
                 'ここにpositionを表示したい。とりあえず。'
+                    // TODO(me): 画面が止まったら現在時刻を表示
             ),
+            // ListViewの部分
             Expanded(
               child: ListView.builder(
                 shrinkWrap: true,
                 itemCount: items.length,
                 itemBuilder: (context, index) {
                   return ListTile(
-                    leading: const Text('ここにサムネ'),
+                    leading: const Text('停止した時の\n動画のサムネ'),
                     title: Text(items[index]),
-                    subtitle: const Text('再生される時間'),
+                    subtitle: const Text('再生が始まる時間'),
                     onTap: (){
                       // TODO(me): 再生時間から動画が再生される,
                     },
