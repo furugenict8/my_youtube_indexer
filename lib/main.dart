@@ -14,14 +14,15 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('youtube player demo'),
+          title: const Text('my_youtube_indexer'),
         ),
         body: YoutubePlayerFlutterExample(
           items: List<String>.generate(10000, (i) => '動画のインデックス ${i+1}'),
         ),
         floatingActionButton: FloatingActionButton(
             onPressed: () {
-              //TODO(自分): 押したら動画の現在時刻を取得して表示する,
+              //TODO(自分): 押したら動画の現在時刻を取得して表示する
+              print(_controller.value.position);
             },
             tooltip: '押したら動画の現在時刻を取得して表示する',
             child: const Icon(Icons.add),
@@ -84,8 +85,6 @@ class YoutubePlayerFlutterExample extends StatelessWidget {
     );
   }
 }
-
-int n = 3;
 
 var _controller = YoutubePlayerController(
   initialVideoId: 'nPt8bK2gbaU',
