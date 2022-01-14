@@ -47,10 +47,17 @@ class YoutubePlayerFlutterExample extends StatelessWidget {
               children: [
               // youtube_player_flutterのこと。
               player,
-              Text(
-                '停止しているposition\n'
-                    '${_positionController.value.position}',
-                // TODO(me): 画面が止まったら現在時刻を表示
+              ChangeNotifierProvider<PositionManagement>(
+                create: (context) => PositionManagement(),
+                child: Consumer<PositionManagement>(
+                  builder: (context, position, child) {
+                    return Text(
+                      '停止しているposition\n'
+                          '${position.currentPosition}',
+                      // TODO(me): 画面が止まったら現在時刻を表示
+                    );
+                  }
+                ),
               ),
               // ListViewの部分
               Expanded(
@@ -75,7 +82,7 @@ class YoutubePlayerFlutterExample extends StatelessWidget {
           onPressed: () {
             //TODO(自分): 押したら動画の現在時刻を取得して表示する
             _positionController.playPause();
-            print(_positionController.value.position);
+            print(_positionController.currentPosition);
           },
           tooltip: '押したら動画の現在時刻を取得して表示する',
           child: const Icon(Icons.add),
@@ -123,6 +130,7 @@ class PositionManagement extends YoutubePlayerController {
     // TODO(me): ここにYoutubePlayerValueを再描画させる処理を入れる。
     // currentPosition = _controller.value.position;
     super.pause();
+    currentPosition = super.value.position;
     notifyListeners();
   }
 }
