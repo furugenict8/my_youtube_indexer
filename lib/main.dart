@@ -42,8 +42,7 @@ class YoutubePlayerFlutterExample extends StatelessWidget {
         appBar: AppBar(
           title: const Text('my_youtube_indexer'),
         ),
-        body: Expanded(
-          child: Column(
+        body: Column(
               children: [
               // youtube_player_flutterのこと。
               player,
@@ -69,8 +68,7 @@ class YoutubePlayerFlutterExample extends StatelessWidget {
                   },
                 ),
               ),
-              ]
-          )
+            ]
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
