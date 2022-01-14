@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   runApp(const MyApp(key: null,));
@@ -21,7 +22,7 @@ class MyApp extends StatelessWidget {
 
 
 class YoutubePlayerFlutterExample extends StatelessWidget {
-  const YoutubePlayerFlutterExample({
+        YoutubePlayerFlutterExample({
           Key? key,
           required this.items,
         }) : super(key: key);
@@ -31,7 +32,7 @@ class YoutubePlayerFlutterExample extends StatelessWidget {
   Widget build(BuildContext context) {
     return YoutubePlayerBuilder(
       player: YoutubePlayer(
-        controller: _controller,
+        controller: _positionController,
         showVideoProgressIndicator: true,
         progressIndicatorColor: Colors.blueAccent,
         onReady: () {
@@ -47,8 +48,8 @@ class YoutubePlayerFlutterExample extends StatelessWidget {
               // youtube_player_flutterのこと。
               player,
               Text(
-                'YoutubePlayerControllerのインスタンスからposition表示\n'
-                    '${_controller.value.position}',
+                '停止しているposition\n'
+                    '${_positionController.value.position}',
                 // TODO(me): 画面が止まったら現在時刻を表示
               ),
               // ListViewの部分
@@ -73,7 +74,8 @@ class YoutubePlayerFlutterExample extends StatelessWidget {
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             //TODO(自分): 押したら動画の現在時刻を取得して表示する
-            print(_controller.value.position);
+            _positionController.playPause();
+            print(_positionController.value.position);
           },
           tooltip: '押したら動画の現在時刻を取得して表示する',
           child: const Icon(Icons.add),
@@ -83,6 +85,7 @@ class YoutubePlayerFlutterExample extends StatelessWidget {
   }
 }
 
+// 検証のため、YoutubePlayerControllerのインスタンス _controllerを用意
 var _controller = YoutubePlayerController(
   initialVideoId: 'nPt8bK2gbaU',
   flags: const YoutubePlayerFlags(
@@ -95,3 +98,32 @@ var _controller = YoutubePlayerController(
     enableCaption: true,
   ),
 );
+
+var _positionController = PositionManagement();
+
+// positionのような状態管理のため、YoutubePlayerControllerをextendsしたClassをつくる
+// YoutubePlayerControllerをValueNotifierに見立てる。
+class PositionManagement extends YoutubePlayerController {
+  PositionManagement() : super(
+    initialVideoId: 'nPt8bK2gbaU',
+    flags: const YoutubePlayerFlags(
+      mute: false,
+      autoPlay: false,
+      disableDragSeek: false,
+      loop: false,
+      isLive: false,
+      forceHD: false,
+      enableCaption: true,
+    ),
+  );
+
+  Duration currentPosition = Duration.zero;
+
+  void playPause() {
+    // TODO(me): ここにYoutubePlayerValueを再描画させる処理を入れる。
+    // currentPosition = _controller.value.position;
+    super.pause();
+    notifyListeners();
+  }
+}
+
