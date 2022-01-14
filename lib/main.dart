@@ -32,62 +32,63 @@ class YoutubePlayerFlutterExample extends StatelessWidget {
   Widget build(BuildContext context) {
     return YoutubePlayerBuilder(
       player: YoutubePlayer(
-        controller: _positionController,
+        controller: positionController,
         showVideoProgressIndicator: true,
         progressIndicatorColor: Colors.blueAccent,
         onReady: () {
           // TODO　何か
         },
       ),
-      builder: (context, player) => Scaffold(
-        appBar: AppBar(
-          title: const Text('my_youtube_indexer'),
-        ),
-        body: Column(
-              children: [
-              // youtube_player_flutterのこと。
-              player,
-              ChangeNotifierProvider<PositionManagement>(
-                create: (context) => PositionManagement(),
-                child: Consumer<PositionManagement>(
-                  builder: (context, position, child) {
-                    return Text(
+      builder: (context, player) {
+        return ValueListenableBuilder<YoutubePlayerValue>(
+          valueListenable: positionController,
+          builder: (context, youtubePlayerValue, child) {
+            return Scaffold(
+              appBar: AppBar(
+                title: const Text('my_youtube_indexer'),
+              ),
+              body: Column(
+                    children: [
+                    // youtube_player_flutterのこと。
+                    player,
+                    Text(
                       '停止しているposition\n'
-                          '${position.currentPosition}',
+                          '${positionController.currentPosition}',
                       // TODO(me): 画面が止まったら現在時刻を表示
-                    );
-                  }
-                ),
+                    ),
+                    // ListViewの部分
+                    Expanded(
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: items.length,
+                        itemBuilder: (context, index) {
+                          return ListTile(
+                            leading: const Text('停止した時の\n動画のサムネ'),
+                            title: Text(items[index]),
+                            subtitle: const Text('再生が始まる時間'),
+                            onTap: (){
+                              // TODO(me): 再生時間から動画が再生される,
+                            },
+                          );
+                        },
+                      ),
+                    ),
+                  ]
               ),
-              // ListViewの部分
-              Expanded(
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: items.length,
-                  itemBuilder: (context, index) {
-                    return ListTile(
-                      leading: const Text('停止した時の\n動画のサムネ'),
-                      title: Text(items[index]),
-                      subtitle: const Text('再生が始まる時間'),
-                      onTap: (){
-                        // TODO(me): 再生時間から動画が再生される,
-                      },
-                    );
-                  },
-                ),
+              floatingActionButton: FloatingActionButton(
+                onPressed: () {
+                  //TODO(自分): 押したら動画の現在時刻を取得して表示する
+                  positionController.playPause();
+                  positionController.currentPosition = youtubePlayerValue.position;
+                  print(positionController.currentPosition);
+                },
+                tooltip: '押したら動画の現在時刻を取得して表示する',
+                child: const Icon(Icons.add),
               ),
-            ]
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            //TODO(自分): 押したら動画の現在時刻を取得して表示する
-            _positionController.playPause();
-            print(_positionController.currentPosition);
-          },
-          tooltip: '押したら動画の現在時刻を取得して表示する',
-          child: const Icon(Icons.add),
-        ),
-      ),
+            );
+        }
+      );
+      },
     );
   }
 }
@@ -106,7 +107,7 @@ var _controller = YoutubePlayerController(
   ),
 );
 
-var _positionController = PositionManagement();
+PositionManagement positionController = PositionManagement();
 
 // positionのような状態管理のため、YoutubePlayerControllerをextendsしたClassをつくる
 // YoutubePlayerControllerをValueNotifierに見立てる。
@@ -124,14 +125,15 @@ class PositionManagement extends YoutubePlayerController {
     ),
   );
 
+  // value(YoutubePlayerValue)を変数にしないといけないのか？
+  // YoutubePlayerValue currentValue = null;
+
   Duration currentPosition = Duration.zero;
 
   void playPause() {
     // TODO(me): ここにYoutubePlayerValueを再描画させる処理を入れる。
-    // currentPosition = _controller.value.position;
     super.pause();
-    currentPosition = super.value.position;
-    notifyListeners();
+    value = super.value;
   }
 }
 
