@@ -12,22 +12,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('my_youtube_indexer'),
-        ),
-        body: YoutubePlayerFlutterExample(
-          items: List<String>.generate(10000, (i) => '動画のインデックス ${i+1}'),
-        ),
-        floatingActionButton: FloatingActionButton(
-            onPressed: () {
-              //TODO(自分): 押したら動画の現在時刻を取得して表示する
-              print(_controller.value.position);
-            },
-            tooltip: '押したら動画の現在時刻を取得して表示する',
-            child: const Icon(Icons.add),
-        ),
-        // This trailing comma makes auto-formatting nicer for build methods.
+      home: YoutubePlayerFlutterExample(
+        items: List<String>.generate(10000, (i) => '動画のインデックス ${i+1}'),
       ),
     );
   }
@@ -52,34 +38,45 @@ class YoutubePlayerFlutterExample extends StatelessWidget {
           // TODO　何か
         },
       ),
-      builder: (context, player) => Expanded(
-        child: Column(
-          children: [
-            // youtube_player_flutterのこと。
-            player,
-            Text(
+      builder: (context, player) => Scaffold(
+        appBar: AppBar(
+          title: const Text('my_youtube_indexer'),
+        ),
+        body: Column(
+              children: [
+              // youtube_player_flutterのこと。
+              player,
+              Text(
                 'YoutubePlayerControllerのインスタンスからposition表示\n'
                     '${_controller.value.position}',
-                    // TODO(me): 画面が止まったら現在時刻を表示
-            ),
-           // ListViewの部分
-            Expanded(
-              child: ListView.builder(
-                shrinkWrap: true,
-                itemCount: items.length,
-                itemBuilder: (context, index) {
-                  return ListTile(
-                    leading: const Text('停止した時の\n動画のサムネ'),
-                    title: Text(items[index]),
-                    subtitle: const Text('再生が始まる時間'),
-                    onTap: (){
-                      // TODO(me): 再生時間から動画が再生される,
-                    },
-                  );
-                },
+                // TODO(me): 画面が止まったら現在時刻を表示
               ),
-            )
-          ],
+              // ListViewの部分
+              Expanded(
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: items.length,
+                  itemBuilder: (context, index) {
+                    return ListTile(
+                      leading: const Text('停止した時の\n動画のサムネ'),
+                      title: Text(items[index]),
+                      subtitle: const Text('再生が始まる時間'),
+                      onTap: (){
+                        // TODO(me): 再生時間から動画が再生される,
+                      },
+                    );
+                  },
+                ),
+              ),
+            ]
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            //TODO(自分): 押したら動画の現在時刻を取得して表示する
+            print(_controller.value.position);
+          },
+          tooltip: '押したら動画の現在時刻を取得して表示する',
+          child: const Icon(Icons.add),
         ),
       ),
     );
