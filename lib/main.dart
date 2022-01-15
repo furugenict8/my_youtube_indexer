@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+import 'package:my_youtube_indexer/player_page.dart';
 
 void main() {
-  runApp(const MyApp(key: null,));
+  runApp(const MyApp(
+    key: null,
+  ));
 }
 
 class MyApp extends StatelessWidget {
@@ -12,86 +14,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('youtube player demo'),
-        ),
-        body: YoutubePlayerFlutterExample(
-          items: List<String>.generate(10000, (i) => '動画のインデックス ${i+1}'),
-        ),
-        floatingActionButton: FloatingActionButton(
-            onPressed: () {
-              //TODO(自分): 押したら動画の現在時刻を取得して表示する,
-            },
-            tooltip: '押したら動画の現在時刻を取得して表示する',
-            child: const Icon(Icons.add),
-        ),
-        // This trailing comma makes auto-formatting nicer for build methods.
+      home: YoutubePlayerFlutterExample(
+        items: List<String>.generate(10000, (i) => '動画のインデックス ${i + 1}'),
       ),
     );
   }
 }
-
-
-class YoutubePlayerFlutterExample extends StatelessWidget {
-  const YoutubePlayerFlutterExample({
-          Key? key,
-          required this.items,
-        }) : super(key: key);
-  final List<String> items;
-
-  @override
-  Widget build(BuildContext context) {
-    return YoutubePlayerBuilder(
-      player: YoutubePlayer(
-        controller: _controller,
-        showVideoProgressIndicator: true,
-        progressIndicatorColor: Colors.blueAccent,
-        onReady: () {
-          // TODO　何か
-        },
-      ),
-      builder: (context, player) => Expanded(
-        child: Column(
-          children: [
-            // youtube_player_flutterのこと。
-            player,
-            const Text(
-                'ここにpositionを表示したい。とりあえず。'
-            ),
-            Expanded(
-              child: ListView.builder(
-                shrinkWrap: true,
-                itemCount: items.length,
-                itemBuilder: (context, index) {
-                  return ListTile(
-                    leading: const Text('ここにサムネ'),
-                    title: Text(items[index]),
-                    subtitle: const Text('再生される時間'),
-                    onTap: (){
-                      // TODO(me): 再生時間から動画が再生される,
-                    },
-                  );
-                },
-              ),
-            )
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-
-var _controller = YoutubePlayerController(
-  initialVideoId: 'nPt8bK2gbaU',
-  flags: const YoutubePlayerFlags(
-    mute: false,
-    autoPlay: false,
-    disableDragSeek: false,
-    loop: false,
-    isLive: false,
-    forceHD: false,
-    enableCaption: true,
-  ),
-);

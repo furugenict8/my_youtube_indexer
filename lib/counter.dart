@@ -1,3 +1,5 @@
+// testするために作ったページ
+
 class Counter {
   int value = 0;
 
