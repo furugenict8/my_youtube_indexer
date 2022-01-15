@@ -52,6 +52,15 @@ class YoutubePlayerFlutterExample extends StatelessWidget {
                         onTap: () {
                           // TODO(me): 再生時間から動画が再生される,
                         },
+                        trailing: GestureDetector(
+                          onTap: () {
+                            //　TODO(me): ボタンを押したらこのListTileが削除される操作
+                          },
+                          child: const Icon(
+                            Icons.close,
+                            color: Colors.red,
+                          ),
+                        ),
                       );
                     },
                   ),
