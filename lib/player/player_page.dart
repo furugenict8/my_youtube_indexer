@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_youtube_indexer/add_index/add_index_page.dart';
 import 'package:my_youtube_indexer/player/player_notifier.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
@@ -68,11 +69,13 @@ class YoutubePlayerFlutterExample extends StatelessWidget {
               ]),
               floatingActionButton: FloatingActionButton(
                 onPressed: () {
-                  //TODO(自分): 押したら動画の現在時刻を取得して表示する
-                  youtubePlayerControllerNotifier
-                    ..pause()
-                    ..currentPosition =
-                        youtubePlayerControllerNotifier.value.position;
+                  // TODO(me): add_index画面(addIndexDialog)を同じ画面でポップアップさせる
+                  // TODO(me): 動画を停止する。
+                  // TODO(me): ポップアップしたaddIndexDialogに停止したpositionを表示
+                  Navigator.push<Widget>(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const AddIndexDialog()));
                 },
                 tooltip: '押したら動画の現在時刻を取得して表示する',
                 child: const Icon(Icons.add),
