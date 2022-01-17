@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_youtube_indexer/player_page.dart';
+import 'package:my_youtube_indexer/player/player_page.dart';
 
 void main() {
   runApp(const MyApp(
