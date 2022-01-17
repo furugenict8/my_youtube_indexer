@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_youtube_indexer/player_notifier.dart';
+import 'package:my_youtube_indexer/player/player_notifier.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class YoutubePlayerFlutterExample extends StatelessWidget {
