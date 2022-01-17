@@ -73,8 +73,11 @@ class YoutubePlayerFlutterExample extends StatelessWidget {
                 onPressed: () async {
                   // TODO(me): 動画を停止する。
                   // TODO(me): ポップアップしたaddIndexDialogに停止したpositionを表示
+                  // TODO(me): addIndexDialogから戻ってきたときに止めた時の状態のplayerを表示する。
                   // TODO(me): 画面遷移して戻ってきた時に同じ状態（リストとか停止している時間とか）にする。
                   youtubePlayerControllerNotifier.pause();
+                  var currentPosition =
+                      youtubePlayerControllerNotifier.currentPosition;
                   final result = await showDialog<int>(
                     context: context,
                     barrierDismissible: false,
@@ -93,7 +96,7 @@ class YoutubePlayerFlutterExample extends StatelessWidget {
                               keyboardType: TextInputType.text,
                             ),
                             // TODO(me): playerで停止している時間currentPositonを表示する。
-                            const Text('currentPositionを表示\n20：02'),
+                            Text('currentPositionを表示\n$currentPosition'),
                           ],
                         ),
                         actions: <Widget>[
