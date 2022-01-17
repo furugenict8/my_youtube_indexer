@@ -72,6 +72,8 @@ class YoutubePlayerFlutterExample extends StatelessWidget {
                   // TODO(me): add_index画面(addIndexDialog)を同じ画面でポップアップさせる
                   // TODO(me): 動画を停止する。
                   // TODO(me): ポップアップしたaddIndexDialogに停止したpositionを表示
+                  // TODO(me): 画面遷移して戻ってきた時に同じ状態（リストとか停止している時間とか）にする。
+                  youtubePlayerControllerNotifier.pause();
                   Navigator.push<Widget>(
                       context,
                       MaterialPageRoute(
