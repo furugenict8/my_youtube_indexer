@@ -76,10 +76,14 @@ class YoutubePlayerFlutterExample extends StatelessWidget {
                   // TODO(me): addIndexDialogから戻ってきたときに止めた時の状態のplayerを表示する。
                   // TODO(me): 画面遷移して戻ってきた時に同じ状態（リストとか停止している時間とか）にする。
                   youtubePlayerControllerNotifier.pause();
-                  var currentPosition =
+                  final currentPosition =
                       youtubePlayerControllerNotifier.currentPosition;
-                  final result = await showDialog<int>(
+
+                  // showDialog<T> はダイアログの表示結果戻り値の型を指定
+                  final result = await showDialog<String>(
                     context: context,
+
+                    // barrierDismissibleはダイアログ表示時の背景をタップしたときにダイアログを閉じてよいかどうか
                     barrierDismissible: false,
                     builder: (BuildContext context) {
                       return AlertDialog(
@@ -102,11 +106,13 @@ class YoutubePlayerFlutterExample extends StatelessWidget {
                         actions: <Widget>[
                           ElevatedButton(
                             child: const Text('Cancel'),
-                            onPressed: () => Navigator.of(context).pop(0),
+                            onPressed: () =>
+                                Navigator.of(context).pop('Cancelだよ'),
                           ),
                           ElevatedButton(
                             child: const Text('OK'),
-                            onPressed: () => Navigator.of(context).pop(1),
+                            onPressed: () =>
+                                Navigator.of(context).pop('indexだよ。'),
                           ),
                         ],
                       );
