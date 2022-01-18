@@ -75,9 +75,10 @@ class YoutubePlayerFlutterExample extends StatelessWidget {
                   // TODO(me): ポップアップしたaddIndexDialogに停止したpositionを表示
                   // TODO(me): addIndexDialogから戻ってきたときに止めた時の状態のplayerを表示する。
                   // TODO(me): 画面遷移して戻ってきた時に同じ状態（リストとか停止している時間とか）にする。
-                  youtubePlayerControllerNotifier.pause();
-                  final currentPosition =
-                      youtubePlayerControllerNotifier.currentPosition;
+                  youtubePlayerControllerNotifier
+                    ..pause()
+                    ..currentPosition =
+                        youtubePlayerControllerNotifier.value.position;
 
                   // showDialog<T> はダイアログの表示結果戻り値の型を指定
                   final result = await showDialog<String>(
@@ -87,20 +88,20 @@ class YoutubePlayerFlutterExample extends StatelessWidget {
                     barrierDismissible: false,
                     builder: (BuildContext context) {
                       return AlertDialog(
-                        title: const Text('indexを入れてください'),
                         content: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             TextField(
                               controller: indexTextController,
                               decoration: const InputDecoration(
-                                hintText: '2回目のAメロ',
+                                hintText: 'index name',
                               ),
                               autofocus: true,
                               keyboardType: TextInputType.text,
                             ),
-                            // TODO(me): playerで停止している時間currentPositonを表示する。
-                            Text('currentPositionを表示\n$currentPosition'),
+                            // TODO(me): playerで停止している時間currentPositionを表示する。
+                            Text('currentPosition\n'
+                                '${youtubePlayerControllerNotifier.currentPosition}'),
                           ],
                         ),
                         actions: <Widget>[
