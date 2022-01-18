@@ -3,11 +3,14 @@ import 'package:my_youtube_indexer/player/player_notifier.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class YoutubePlayerFlutterExample extends StatelessWidget {
-  const YoutubePlayerFlutterExample({
+  YoutubePlayerFlutterExample({
     Key? key,
     required this.items,
   }) : super(key: key);
   final List<String> items;
+
+  // index入力フォームのため。
+  final indexTextController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -67,12 +70,55 @@ class YoutubePlayerFlutterExample extends StatelessWidget {
                 ),
               ]),
               floatingActionButton: FloatingActionButton(
-                onPressed: () {
-                  //TODO(自分): 押したら動画の現在時刻を取得して表示する
-                  youtubePlayerControllerNotifier
-                    ..pause()
-                    ..currentPosition =
-                        youtubePlayerControllerNotifier.value.position;
+                onPressed: () async {
+                  // TODO(me): 動画を停止する。
+                  // TODO(me): ポップアップしたaddIndexDialogに停止したpositionを表示
+                  // TODO(me): addIndexDialogから戻ってきたときに止めた時の状態のplayerを表示する。
+                  // TODO(me): 画面遷移して戻ってきた時に同じ状態（リストとか停止している時間とか）にする。
+                  youtubePlayerControllerNotifier.pause();
+                  final currentPosition =
+                      youtubePlayerControllerNotifier.currentPosition;
+
+                  // showDialog<T> はダイアログの表示結果戻り値の型を指定
+                  final result = await showDialog<String>(
+                    context: context,
+
+                    // barrierDismissibleはダイアログ表示時の背景をタップしたときにダイアログを閉じてよいかどうか
+                    barrierDismissible: false,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: const Text('indexを入れてください'),
+                        content: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            TextField(
+                              controller: indexTextController,
+                              decoration: const InputDecoration(
+                                hintText: '2回目のAメロ',
+                              ),
+                              autofocus: true,
+                              keyboardType: TextInputType.text,
+                            ),
+                            // TODO(me): playerで停止している時間currentPositonを表示する。
+                            Text('currentPositionを表示\n$currentPosition'),
+                          ],
+                        ),
+                        actions: <Widget>[
+                          ElevatedButton(
+                            child: const Text('Cancel'),
+                            onPressed: () =>
+                                Navigator.of(context).pop('Cancelだよ'),
+                          ),
+                          ElevatedButton(
+                            child: const Text('OK'),
+                            onPressed: () =>
+                                Navigator.of(context).pop('indexだよ。'),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                  print('dialog result: $result');
                 },
                 tooltip: '押したら動画の現在時刻を取得して表示する',
                 child: const Icon(Icons.add),
