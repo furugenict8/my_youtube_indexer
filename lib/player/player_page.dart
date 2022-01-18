@@ -88,14 +88,13 @@ class YoutubePlayerFlutterExample extends StatelessWidget {
                     barrierDismissible: false,
                     builder: (BuildContext context) {
                       return AlertDialog(
-                        title: const Text('indexを入れてください'),
                         content: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             TextField(
                               controller: indexTextController,
                               decoration: const InputDecoration(
-                                hintText: '2回目のAメロ',
+                                hintText: 'index name',
                               ),
                               autofocus: true,
                               keyboardType: TextInputType.text,
