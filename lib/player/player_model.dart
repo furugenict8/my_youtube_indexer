@@ -5,11 +5,14 @@ import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 //　なのでコンストラクタ内でinitすればよさそう。
 // salon appと違うけど。
 class PlayerModel extends ChangeNotifier {
-  Duration currentPosition = Duration.zero;
+  PlayerModel() {
+    init();
+  }
+
+  late Duration _currentPosition;
   late YoutubePlayerController _controller;
   late TextEditingController _addIndexDialogTextController;
   late PlayerState _playerState;
-
   bool _isPlayerReady = false;
 
   // playerの初期化
@@ -30,10 +33,13 @@ class PlayerModel extends ChangeNotifier {
       // 今回はListener()を登録。
     )..addListener(listener);
 
+    _currentPosition = Duration.zero;
     _addIndexDialogTextController = TextEditingController();
     _playerState = PlayerState.unknown;
   }
 
+  // youtube_player_flutter_sampleにあるmount propertyにあたるものは
+  // とりあえず無視してみます。
   void listener() {
     if (_isPlayerReady && !_controller.value.isFullScreen) {
       _playerState = _controller.value.playerState;
@@ -49,6 +55,8 @@ class PlayerModel extends ChangeNotifier {
     super.dispose();
   }
 }
+
+// 以下はValueNotifierを状態管理で使っているバージョン
 
 // ValueListenableBuilderに登録するため
 // youtubePlayerControllerNotifierのインスタンスを作る。
