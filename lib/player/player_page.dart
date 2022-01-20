@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_youtube_indexer/player/player_notifier.dart';
+import 'package:my_youtube_indexer/player/player_model.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class YoutubePlayerFlutterExample extends StatelessWidget {
@@ -10,7 +10,7 @@ class YoutubePlayerFlutterExample extends StatelessWidget {
   final List<String> items;
 
   // index入力フォームのため。
-  final indexTextController = TextEditingController();
+  final addIndexDialogTextController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +39,7 @@ class YoutubePlayerFlutterExample extends StatelessWidget {
                 // youtube_player_flutterのこと。
                 player,
                 Text(
-                  '停止した時のposition\n'
+                  'FloatingActionButtonがタップされた時のposition\n'
                   '${youtubePlayerControllerNotifier.currentPosition}',
                 ),
                 // ListViewの部分
@@ -71,8 +71,6 @@ class YoutubePlayerFlutterExample extends StatelessWidget {
               ]),
               floatingActionButton: FloatingActionButton(
                 onPressed: () async {
-                  // TODO(me): 動画を停止する。
-                  // TODO(me): ポップアップしたaddIndexDialogに停止したpositionを表示
                   // TODO(me): addIndexDialogから戻ってきたときに止めた時の状態のplayerを表示する。
                   // TODO(me): 画面遷移して戻ってきた時に同じ状態（リストとか停止している時間とか）にする。
                   youtubePlayerControllerNotifier
@@ -86,13 +84,15 @@ class YoutubePlayerFlutterExample extends StatelessWidget {
 
                     // barrierDismissibleはダイアログ表示時の背景をタップしたときにダイアログを閉じてよいかどうか
                     barrierDismissible: false,
+
+                    // TODO(me): AlertDialogの見た目をよくしたい。
                     builder: (BuildContext context) {
                       return AlertDialog(
                         content: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             TextField(
-                              controller: indexTextController,
+                              controller: addIndexDialogTextController,
                               decoration: const InputDecoration(
                                 hintText: 'index name',
                               ),
