@@ -9,15 +9,15 @@ class PlayerModel extends ChangeNotifier {
     init();
   }
 
-  late Duration _currentPosition;
-  late YoutubePlayerController _controller;
+  late Duration currentPosition;
+  late YoutubePlayerController controller;
   late TextEditingController _addIndexDialogTextController;
   late PlayerState _playerState;
   bool _isPlayerReady = false;
 
   // playerの初期化
   void init() {
-    _controller = YoutubePlayerController(
+    controller = YoutubePlayerController(
       initialVideoId: 'nPt8bK2gbaU',
       flags: const YoutubePlayerFlags(
         mute: false,
@@ -33,16 +33,18 @@ class PlayerModel extends ChangeNotifier {
       // 今回はListener()を登録。
     )..addListener(listener);
 
-    _currentPosition = Duration.zero;
+    currentPosition = Duration.zero;
     _addIndexDialogTextController = TextEditingController();
     _playerState = PlayerState.unknown;
+
+    notifyListeners();
   }
 
   // youtube_player_flutter_sampleにあるmount propertyにあたるものは
   // とりあえず無視してみます。
   void listener() {
-    if (_isPlayerReady && !_controller.value.isFullScreen) {
-      _playerState = _controller.value.playerState;
+    if (_isPlayerReady && !controller.value.isFullScreen) {
+      _playerState = controller.value.playerState;
     }
   }
 
@@ -50,9 +52,15 @@ class PlayerModel extends ChangeNotifier {
   @override
   void dispose() {
     // TODO(me): implement dispose
-    _controller.dispose();
+    controller.dispose();
     _addIndexDialogTextController.dispose();
     super.dispose();
+  }
+
+  void getCurrentPosition() {
+    controller.pause();
+    currentPosition = controller.value.position;
+    notifyListeners();
   }
 }
 
@@ -60,29 +68,29 @@ class PlayerModel extends ChangeNotifier {
 
 // ValueListenableBuilderに登録するため
 // youtubePlayerControllerNotifierのインスタンスを作る。
-YoutubePlayerControllerNotifier youtubePlayerControllerNotifier =
-    YoutubePlayerControllerNotifier();
+// YoutubePlayerControllerNotifier youtubePlayerControllerNotifier =
+//     YoutubePlayerControllerNotifier();
 
 // positionのような変数の状態管理のため、YoutubePlayerControllerをextendsしたClassをつくる
 // YoutubePlayerControllerをValueNotifierに見立てる。
-class YoutubePlayerControllerNotifier extends YoutubePlayerController {
-  YoutubePlayerControllerNotifier()
-      : super(
-          initialVideoId: 'nPt8bK2gbaU',
-          flags: const YoutubePlayerFlags(
-            mute: false,
-            autoPlay: false,
-            disableDragSeek: false,
-            loop: false,
-            isLive: false,
-            forceHD: false,
-            enableCaption: true,
-          ),
-        );
+// class YoutubePlayerControllerNotifier extends YoutubePlayerController {
+//   YoutubePlayerControllerNotifier()
+//       : super(
+//           initialVideoId: 'nPt8bK2gbaU',
+//           flags: const YoutubePlayerFlags(
+//             mute: false,
+//             autoPlay: false,
+//             disableDragSeek: false,
+//             loop: false,
+//             isLive: false,
+//             forceHD: false,
+//             enableCaption: true,
+//           ),
+//         );
 
-  // 止まった時の時間を保持する変数currentPosition
-  Duration currentPosition = Duration.zero;
-}
+// 止まった時の時間を保持する変数currentPosition
+// Duration currentPosition = Duration.zero;
+// }
 
 // 検証のため、YoutubePlayerControllerのインスタンス _controllerを用意
 // var _controller = YoutubePlayerController(
