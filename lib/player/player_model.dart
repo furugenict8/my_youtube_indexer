@@ -11,7 +11,7 @@ class PlayerModel extends ChangeNotifier {
 
   late Duration currentPosition;
   late YoutubePlayerController controller;
-  late TextEditingController _addIndexDialogTextController;
+  late TextEditingController addIndexDialogTextController;
   late PlayerState _playerState;
   bool _isPlayerReady = false;
 
@@ -34,7 +34,9 @@ class PlayerModel extends ChangeNotifier {
     )..addListener(listener);
 
     currentPosition = Duration.zero;
-    _addIndexDialogTextController = TextEditingController();
+
+    // index入力フォームのため
+    addIndexDialogTextController = TextEditingController();
     _playerState = PlayerState.unknown;
 
     notifyListeners();
@@ -53,7 +55,7 @@ class PlayerModel extends ChangeNotifier {
   void dispose() {
     // TODO(me): implement dispose
     controller.dispose();
-    _addIndexDialogTextController.dispose();
+    addIndexDialogTextController.dispose();
     super.dispose();
   }
 
@@ -63,45 +65,3 @@ class PlayerModel extends ChangeNotifier {
     notifyListeners();
   }
 }
-
-// 以下はValueNotifierを状態管理で使っているバージョン
-
-// ValueListenableBuilderに登録するため
-// youtubePlayerControllerNotifierのインスタンスを作る。
-// YoutubePlayerControllerNotifier youtubePlayerControllerNotifier =
-//     YoutubePlayerControllerNotifier();
-
-// positionのような変数の状態管理のため、YoutubePlayerControllerをextendsしたClassをつくる
-// YoutubePlayerControllerをValueNotifierに見立てる。
-// class YoutubePlayerControllerNotifier extends YoutubePlayerController {
-//   YoutubePlayerControllerNotifier()
-//       : super(
-//           initialVideoId: 'nPt8bK2gbaU',
-//           flags: const YoutubePlayerFlags(
-//             mute: false,
-//             autoPlay: false,
-//             disableDragSeek: false,
-//             loop: false,
-//             isLive: false,
-//             forceHD: false,
-//             enableCaption: true,
-//           ),
-//         );
-
-// 止まった時の時間を保持する変数currentPosition
-// Duration currentPosition = Duration.zero;
-// }
-
-// 検証のため、YoutubePlayerControllerのインスタンス _controllerを用意
-// var _controller = YoutubePlayerController(
-//   initialVideoId: 'nPt8bK2gbaU',
-//   flags: const YoutubePlayerFlags(
-//     mute: false,
-//     autoPlay: false,
-//     disableDragSeek: false,
-//     loop: false,
-//     isLive: false,
-//     forceHD: false,
-//     enableCaption: true,
-//   ),
-// );

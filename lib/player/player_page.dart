@@ -4,14 +4,11 @@ import 'package:provider/provider.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class YoutubePlayerFlutterExample extends StatelessWidget {
-  YoutubePlayerFlutterExample({
+  const YoutubePlayerFlutterExample({
     Key? key,
     required this.items,
   }) : super(key: key);
   final List<String> items;
-
-  // index入力フォームのため。
-  final addIndexDialogTextController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +29,6 @@ class YoutubePlayerFlutterExample extends StatelessWidget {
               },
             ),
             builder: (context, player) {
-              // YoutubePlayerValueをScaffoldに渡すためのValueListenableBuilder
               return Scaffold(
                 appBar: AppBar(
                   title: const Text('my_youtube_indexer'),
@@ -91,7 +87,7 @@ class YoutubePlayerFlutterExample extends StatelessWidget {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               TextField(
-                                controller: addIndexDialogTextController,
+                                controller: model.addIndexDialogTextController,
                                 decoration: const InputDecoration(
                                   hintText: 'index name',
                                 ),
