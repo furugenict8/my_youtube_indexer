@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:my_youtube_indexer/add_index/add_index_dialog.dart';
 import 'package:my_youtube_indexer/player/player_model.dart';
 import 'package:provider/provider.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
-class YoutubePlayerFlutterExample extends StatelessWidget {
-  const YoutubePlayerFlutterExample({
+class PlayerPage extends StatelessWidget {
+  const PlayerPage({
     Key? key,
     required this.items,
   }) : super(key: key);
@@ -82,36 +83,7 @@ class YoutubePlayerFlutterExample extends StatelessWidget {
 
                       // TODO(me): AlertDialogの見た目をよくしたい。
                       builder: (BuildContext context) {
-                        return AlertDialog(
-                          content: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              TextField(
-                                controller: model.addIndexDialogTextController,
-                                decoration: const InputDecoration(
-                                  hintText: 'index name',
-                                ),
-                                autofocus: true,
-                                keyboardType: TextInputType.text,
-                              ),
-                              // TODO(me): playerで停止している時間currentPositionを表示する。
-                              Text('currentPosition\n'
-                                  '${model.currentPosition}'),
-                            ],
-                          ),
-                          actions: <Widget>[
-                            ElevatedButton(
-                              child: const Text('Cancel'),
-                              onPressed: () =>
-                                  Navigator.of(context).pop('Cancelだよ'),
-                            ),
-                            ElevatedButton(
-                              child: const Text('OK'),
-                              onPressed: () =>
-                                  Navigator.of(context).pop('indexだよ。'),
-                            ),
-                          ],
-                        );
+                        return AddIndexDialog(model);
                       },
                     );
                     print('dialog result: $result');
