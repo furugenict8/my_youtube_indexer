@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: YoutubePlayerFlutterExample(
+      home: PlayerPage(
         items: List<String>.generate(10000, (i) => '動画のインデックス ${i + 1}'),
       ),
     );

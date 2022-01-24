@@ -3,8 +3,8 @@ import 'package:my_youtube_indexer/player/player_model.dart';
 import 'package:provider/provider.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
-class YoutubePlayerFlutterExample extends StatelessWidget {
-  const YoutubePlayerFlutterExample({
+class PlayerPage extends StatelessWidget {
+  const PlayerPage({
     Key? key,
     required this.items,
   }) : super(key: key);
@@ -95,8 +95,11 @@ class YoutubePlayerFlutterExample extends StatelessWidget {
                                 keyboardType: TextInputType.text,
                               ),
                               // TODO(me): playerで停止している時間currentPositionを表示する。
-                              Text('currentPosition\n'
-                                  '${model.currentPosition}'),
+                              Padding(
+                                padding: const EdgeInsets.all(16),
+                                child: Text('currentPosition\n'
+                                    '${model.currentPosition}'),
+                              ),
                             ],
                           ),
                           actions: <Widget>[
