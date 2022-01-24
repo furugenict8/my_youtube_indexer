@@ -38,7 +38,7 @@ class AddIndexDialog extends StatelessWidget {
           ),
           ElevatedButton(
             child: const Text('OK'),
-            onPressed: () => Navigator.of(context).pop('indexだよ。'),
+            onPressed: () => Navigator.of(context).pop('index追加だよ。'),
           ),
         ],
       ),
