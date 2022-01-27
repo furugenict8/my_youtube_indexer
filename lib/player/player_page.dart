@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:my_youtube_indexer/add_index/add_index_dialog.dart';
 import 'package:my_youtube_indexer/player/player_model.dart';
@@ -5,11 +6,13 @@ import 'package:provider/provider.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class PlayerPage extends StatelessWidget {
-  const PlayerPage({
+  PlayerPage({
     Key? key,
     required this.items,
   }) : super(key: key);
   final List<String> items;
+  final Stream<QuerySnapshot> _usersStream =
+      FirebaseFirestore.instance.collection('users').snapshots();
 
   @override
   Widget build(BuildContext context) {

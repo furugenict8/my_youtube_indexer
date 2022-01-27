@@ -48,6 +48,11 @@ class _UserInformationState extends State<UserInformation> {
             return Text("Loading");
           }
 
+          // children: List<Widget>
+          // snapshot: AsyncSnapshot<QuerySnapshot>
+          // data: QuerySnapshot<Object?>?
+          // docs: List<QueryDocumentSnapshot<T>>
+          // Gets a list of all the documents included in this snapshot.
           return ListView(
             children: snapshot.data!.docs.map((DocumentSnapshot document) {
               final data = document.data()! as Map<String, dynamic>;
