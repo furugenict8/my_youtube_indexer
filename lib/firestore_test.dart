@@ -55,7 +55,10 @@ class _UserInformationState extends State<UserInformation> {
           // Gets a list of all the documents included in this snapshot.
           return ListView(
             children: snapshot.data!.docs.map((DocumentSnapshot document) {
+              // data()について。firestoreのdocumentの全てのデータをObject?で取得。もやもやしてるけど、らしい。
+              // MapでString == field　dynamicでvalueにして変換。
               final data = document.data()! as Map<String, dynamic>;
+              // field　'company'の値をStringへ変換
               final company = data['company'] as String;
               final fullName = data['full_name'] as String;
               return ListTile(
