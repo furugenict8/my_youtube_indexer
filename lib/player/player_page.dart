@@ -16,11 +16,10 @@ class PlayerPage extends StatelessWidget {
   Widget build(BuildContext context) {
     //Full screen対応のためのYoutubePlayerBuilder
     return ChangeNotifierProvider<PlayerModel>(
-      create: (_) => PlayerModel(),
+      create: (_) => PlayerModel()..fetchIndex(),
       child: Consumer<PlayerModel>(
         builder: (context, model, child) {
           // ListView.builder実行の前にここで、fetchIndex()をやっておく
-          model.fetchIndex();
           return YoutubePlayerBuilder(
             player: YoutubePlayer(
               controller: model.controller,
