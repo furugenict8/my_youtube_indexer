@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:my_youtube_indexer/domain/index.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 // ChangeNotifierはChangeNotifierBuilderのcreateのところでコンストラクタがつかわれる。
@@ -14,6 +16,9 @@ class PlayerModel extends ChangeNotifier {
   late TextEditingController addIndexDialogTextController;
   late PlayerState _playerState;
   bool _isPlayerReady = false;
+
+  // documentの要素Indexのリストをモデルで持たせる。
+  List<Index> indexList = [];
 
   // playerの初期化
   void init() {
@@ -62,6 +67,15 @@ class PlayerModel extends ChangeNotifier {
   void getCurrentPosition() {
     controller.pause();
     currentPosition = controller.value.position;
+    notifyListeners();
+  }
+
+  Future<void> fetchIndex() async {
+    // firestoreのコレクションをとる。
+    final document = await FirebaseFirestore.instance.collection('index').get();
+    // コレクションのドキュメント( QueryDocumentSnapshot<Map<String, dynamic>>)を
+    // Indexへ変換。それをListにして、indexListに代入する。
+    indexList = document.docs.map((doc) => Index(doc)).toList();
     notifyListeners();
   }
 }

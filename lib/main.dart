@@ -16,10 +16,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       home: PlayerPage(
-        items: List<String>.generate(10000, (i) => '動画のインデックス ${i + 1}'),
-      ),
+          // items: List<String>.generate(10000, (i) => '動画のインデックス ${i + 1}'),
+          ),
     );
   }
 }
