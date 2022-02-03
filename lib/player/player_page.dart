@@ -8,9 +8,6 @@ class PlayerPage extends StatelessWidget {
   const PlayerPage({
     Key? key,
   }) : super(key: key);
-  // final List<String> items;
-  // final Stream<QuerySnapshot> _indexStream =
-  //     FirebaseFirestore.instance.collection('index').snapshots();
 
   @override
   Widget build(BuildContext context) {

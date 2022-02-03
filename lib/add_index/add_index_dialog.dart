@@ -8,7 +8,7 @@ class AddIndexDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // いきなりAlertDialogはありなんだろうか。
+    // PlayerModelを使い回す。
     return ChangeNotifierProvider<PlayerModel>.value(
       value: PlayerModel(),
       child: AlertDialog(
