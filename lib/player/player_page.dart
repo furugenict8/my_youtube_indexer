@@ -50,9 +50,9 @@ class PlayerPage extends StatelessWidget {
                           final showIndexList = model.indexList;
                           return ListTile(
                             leading: const Text('停止した時の\n動画のサムネ'),
-                            title: Text(showIndexList[index].title),
+                            title: Text('title: ${showIndexList[index].title}'),
                             subtitle: Text(
-                              '${showIndexList[index].currentTime}',
+                              'currentPosition: ${showIndexList[index].currentTime}',
                             ),
                             onTap: () {
                               // TODO(me): 再生時間から動画が再生される,
@@ -72,29 +72,33 @@ class PlayerPage extends StatelessWidget {
                     ),
                   ],
                 ),
-                floatingActionButton: FloatingActionButton(
-                  onPressed: () async {
-                    // TODO(me): addIndexDialogから戻ってきたときに止めた時の状態のplayerを表示する。
-                    // TODO(me): 画面遷移して戻ってきた時に同じ状態（リストとか停止している時間とか）にする。
-                    model.getCurrentPosition();
+                floatingActionButton:
+                    Consumer<PlayerModel>(builder: (context, model, child) {
+                  return FloatingActionButton(
+                    onPressed: () async {
+                      // TODO(me): addIndexDialogから戻ってきたときに止めた時の状態のplayerを表示する。
+                      // TODO(me): 画面遷移して戻ってきた時に同じ状態（リストとか停止している時間とか）にする。
+                      model.getCurrentPosition();
 
-                    // showDialog<T> はダイアログの表示結果戻り値の型を指定
-                    final result = await showDialog<String>(
-                      context: context,
+                      // showDialog<T> はダイアログの表示結果戻り値の型を指定
+                      final result = await showDialog<String>(
+                        context: context,
 
-                      // barrierDismissibleはダイアログ表示時の背景をタップしたときにダイアログを閉じてよいかどうか
-                      barrierDismissible: false,
+                        // barrierDismissibleはダイアログ表示時の背景をタップしたときにダイアログを閉じてよいかどうか
+                        barrierDismissible: false,
 
-                      // TODO(me): AlertDialogの見た目をよくしたい。
-                      builder: (BuildContext context) {
-                        return AddIndexDialog(model);
-                      },
-                    );
-                    print('dialog result: $result');
-                  },
-                  tooltip: '押したら動画の現在時刻を取得して表示する',
-                  child: const Icon(Icons.add),
-                ),
+                        // TODO(me): AlertDialogの見た目をよくしたい。
+                        builder: (BuildContext context) {
+                          return AddIndexDialog(model);
+                        },
+                      );
+                      print('dialog result: $result');
+                      await model.fetchIndex();
+                    },
+                    tooltip: '押したら動画の現在時刻を取得して表示する',
+                    child: const Icon(Icons.add),
+                  );
+                }),
               );
             },
           );
