@@ -40,16 +40,35 @@ class AddIndexDialog extends StatelessWidget {
           ),
           ElevatedButton(
             child: const Text('OK'),
-            onPressed: () {
-              // TODO(me): index欄で入力したtitleをFirestoreのindexコレクションに追加する。
-              // TODO(me): 追加はできているが、cascadeでかくこと推奨(ちょっとわからない。)
-              final indexText = model.addIndexDialogTextController.text;
-              model.indexTitle = indexText;
-              // TODO(me): currentTimeをFirestoreのindexコレクションに追加する。
-              // とりあえず、10000を渡す。
-              model.testCurrentPostion = 10000;
-              model.addIndex();
-              Navigator.of(context).pop('Firestoreにデータを送って、player_pageに戻る');
+            onPressed: () async {
+              try {
+                // TODO(me): index欄で入力したtitleをFirestoreのindexコレクションに追加する。
+                // TODO(me): 追加はできているが、cascadeでかくこと推奨(ちょっとわからない。)
+                final indexText = model.addIndexDialogTextController.text;
+                model.indexTitle = indexText;
+                // TODO(me): currentTimeをFirestoreのindexコレクションに追加する。
+                // とりあえず、10000を渡す。
+                model.testCurrentPostion = 10000;
+                await model.addIndex();
+                Navigator.of(context).pop('Firestoreにデータを送って、player_pageに戻る');
+              } on FormatException catch (e) {
+                await showDialog<AlertDialog>(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: Text(e.message.toString()),
+                      actions: <Widget>[
+                        ElevatedButton(
+                          child: const Text('OK'),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                      ],
+                    );
+                  },
+                );
+              }
             },
           ),
         ],
