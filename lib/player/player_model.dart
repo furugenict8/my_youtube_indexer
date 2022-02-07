@@ -87,7 +87,8 @@ class PlayerModel extends ChangeNotifier {
   Future<void> addIndex() async {
     //ここでバリデーションする　13:27
     if (indexTitle.isEmpty) {
-      throw ('タイトル入力してください。');
+      // Linterで指摘うけないように、FormatException使ってみた。
+      throw const FormatException('タイトル入力してください。');
     }
     final CollectionReference index = FirebaseFirestore.instance.collection(
       'index',
