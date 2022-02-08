@@ -41,11 +41,10 @@ class AddIndexDialog extends StatelessWidget {
             child: const Text('OK'),
             onPressed: () async {
               try {
-                // TODO(me): 追加はできているが、cascadeでかくこと推奨(ちょっとわからない。)
                 model.indexTitle = model.addIndexDialogTextController.text;
                 // TODO(me): currentTimeをFirestoreのindexコレクションに追加する。
                 // とりあえず、10000を渡す。
-                model.testCurrentPostion = 10000;
+                model.testCurrentPosition = 10000;
                 await model.addIndex();
                 Navigator.of(context).pop('Firestoreにデータを送って、player_pageに戻る');
               } on FormatException catch (e) {
