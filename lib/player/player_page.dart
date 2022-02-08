@@ -50,9 +50,9 @@ class PlayerPage extends StatelessWidget {
                           final showIndexList = model.indexList;
                           return ListTile(
                             leading: const Text('停止した時の\n動画のサムネ'),
-                            title: Text('title: ${showIndexList[index].title}'),
+                            title: Text('title: ${showIndexList[index].index}'),
                             subtitle: Text(
-                              'currentPosition: ${showIndexList[index].currentTime}',
+                              'currentPosition: ${showIndexList[index].currentPosition}',
                             ),
                             onTap: () {
                               // TODO(me): 再生時間から動画が再生される,

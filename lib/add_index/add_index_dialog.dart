@@ -16,8 +16,7 @@ class AddIndexDialog extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             TextField(
-              // TODO(me): 入力されたtitleを何か変数に保存する。
-              // controllerでTextEditingControllerが接続され、文字の取得がcontrollerでできるようになった。
+              // controllerでTextEditingControllerが接続され、文字の取得がcontrollerでできるようになる。
               controller: model.addIndexDialogTextController,
               decoration: const InputDecoration(
                 hintText: 'index name',
@@ -42,13 +41,10 @@ class AddIndexDialog extends StatelessWidget {
             child: const Text('OK'),
             onPressed: () async {
               try {
-                // TODO(me): index欄で入力したtitleをFirestoreのindexコレクションに追加する。
-                // TODO(me): 追加はできているが、cascadeでかくこと推奨(ちょっとわからない。)
-                final indexText = model.addIndexDialogTextController.text;
-                model.indexTitle = indexText;
+                model.indexTitle = model.addIndexDialogTextController.text;
                 // TODO(me): currentTimeをFirestoreのindexコレクションに追加する。
                 // とりあえず、10000を渡す。
-                model.testCurrentPostion = 10000;
+                model.testCurrentPosition = 10000;
                 await model.addIndex();
                 Navigator.of(context).pop('Firestoreにデータを送って、player_pageに戻る');
               } on FormatException catch (e) {

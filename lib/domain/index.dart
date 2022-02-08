@@ -2,9 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Index {
   Index(DocumentSnapshot doc) {
-    currentTime = doc['currentTime'] as int;
-    title = doc['title'] as String;
+    currentPosition = doc['currentPosition'] as int;
+    index = doc['index'] as String;
   }
-  int currentTime = 0;
-  String title = '';
+  int currentPosition = 0;
+  String index = '';
 }

@@ -24,7 +24,7 @@ class PlayerModel extends ChangeNotifier {
   String indexTitle = '';
 
   // currentPositonのテストtestCurrentPostionを用意
-  int testCurrentPostion = 0;
+  int testCurrentPosition = 0;
 
   // playerの初期化
   void init() {
@@ -69,16 +69,19 @@ class PlayerModel extends ChangeNotifier {
     super.dispose();
   }
 
+  //　playerの停止時の時間を取得
   void getCurrentPosition() {
     controller.pause();
     currentPosition = controller.value.position;
     notifyListeners();
   }
 
+  // indexと停止した時の時間currentPositionをfirestoreから取得
   Future<void> fetchIndex() async {
-    // firestoreのコレクションをとる。
-    final document = await FirebaseFirestore.instance.collection('index').get();
-    // コレクションのドキュメント( QueryDocumentSnapshot<Map<String, dynamic>>)を
+    // firestoreのコレクション('index')を取得する
+    final document =
+        await FirebaseFirestore.instance.collection('indexes').get();
+    // コレクションindexのドキュメント( QueryDocumentSnapshot<Map<String, dynamic>>)を
     // Indexへ変換。それをListにして、indexListに代入する。
     indexList = document.docs.map((doc) => Index(doc)).toList();
     notifyListeners();
@@ -91,12 +94,12 @@ class PlayerModel extends ChangeNotifier {
       throw const FormatException('タイトル入力してください。');
     }
     final CollectionReference index = FirebaseFirestore.instance.collection(
-      'index',
+      'indexes',
     );
     await index.add({
       //addの中はcloud_firestore 0.13.6参照　JSONみたいなやつ　Dictionaly型
-      'title': indexTitle, //13:08
-      'currentTime': testCurrentPostion,
+      'index': indexTitle, //13:08
+      'currentPosition': testCurrentPosition,
     });
   }
 }
