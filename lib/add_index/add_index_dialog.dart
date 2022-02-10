@@ -4,10 +4,11 @@ import 'package:provider/provider.dart';
 import 'add_index_model.dart';
 
 class AddIndexDialog extends StatelessWidget {
-  AddIndexDialog(this.showCurrentPosition, {Key? key}) : super(key: key);
+  AddIndexDialog(this.currentPositionDisplayedInAddIndexDialog, {Key? key})
+      : super(key: key);
 
   // player_pageからのcurrentPositionを受け取るために変数を用意。
-  Duration showCurrentPosition = Duration.zero;
+  Duration currentPositionDisplayedInAddIndexDialog = Duration.zero;
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +33,7 @@ class AddIndexDialog extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(16),
               child: Text('currentPosition\n'
-                  '$showCurrentPosition'),
+                  '$currentPositionDisplayedInAddIndexDialog'),
             ),
           ],
         ),
