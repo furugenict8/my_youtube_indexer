@@ -37,10 +37,6 @@ class PlayerPage extends StatelessWidget {
                   children: [
                     // youtube_player_flutterのこと。
                     player,
-                    Text(
-                      'FloatingActionButtonがタップされた時のposition\n'
-                      '${model.currentPosition}',
-                    ),
                     // ListViewの部分
                     Expanded(
                       child: ListView.builder(
@@ -53,7 +49,15 @@ class PlayerPage extends StatelessWidget {
                             title: Text('title: ${showIndexList[index].index}'),
                             subtitle: Text(
                               'currentPosition: '
-                              '${showIndexList[index].currentPosition}',
+                              '${Duration(
+                                days: 0,
+                                hours: 0,
+                                minutes: 0,
+                                seconds: 0,
+                                milliseconds: 0,
+                                microseconds:
+                                    showIndexList[index].currentPosition,
+                              )}',
                             ),
                             onTap: () {
                               // TODO(me): 再生時間から動画が再生される,
@@ -80,7 +84,8 @@ class PlayerPage extends StatelessWidget {
                       // TODO(me): addIndexDialogから戻ってきたときに止めた時の状態のplayerを表示する。
                       // TODO(me): 画面遷移して戻ってきた時に同じ状態（リストとか停止している時間とか）にする。
                       model.getCurrentPosition();
-                      final showCurrentPosition = model.currentPosition;
+                      final currentPositionDisplayedInAddIndexDialog =
+                          model.currentPosition;
 
                       // showDialog<T> はダイアログの表示結果戻り値の型を指定
                       final result = await showDialog<String>(
@@ -91,7 +96,8 @@ class PlayerPage extends StatelessWidget {
 
                         // TODO(me): AlertDialogの見た目をよくしたい。
                         builder: (BuildContext context) {
-                          return AddIndexDialog(showCurrentPosition);
+                          return AddIndexDialog(
+                              currentPositionDisplayedInAddIndexDialog);
                         },
                       );
                       print('dialog result: $result');
