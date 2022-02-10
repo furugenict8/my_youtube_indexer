@@ -4,11 +4,12 @@ import 'package:provider/provider.dart';
 import 'add_index_model.dart';
 
 class AddIndexDialog extends StatelessWidget {
-  AddIndexDialog(this.currentPositionDisplayedInAddIndexDialog, {Key? key})
+  const AddIndexDialog(this.currentPositionDisplayedInAddIndexDialog,
+      {Key? key})
       : super(key: key);
 
   // player_pageからのcurrentPositionを受け取るために変数を用意。
-  Duration currentPositionDisplayedInAddIndexDialog = Duration.zero;
+  final Duration currentPositionDisplayedInAddIndexDialog;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +22,8 @@ class AddIndexDialog extends StatelessWidget {
           children: [
             Consumer<AddIndexModel>(builder: (context, model, child) {
               return TextField(
-                // controllerでTextEditingControllerが接続され、文字の取得がcontrollerでできるようになる。
+                // controllerでTextEditingControllerが接続され、
+                // 文字の取得がcontrollerで可能になる。
                 controller: model.addIndexDialogTextController,
                 decoration: const InputDecoration(
                   hintText: 'index name',
@@ -49,7 +51,7 @@ class AddIndexDialog extends StatelessWidget {
               onPressed: () async {
                 try {
                   model.indexTitle = model.addIndexDialogTextController.text;
-                  // TODO(me): currentTimeをFirestoreのindexコレクションに追加する。
+                  // TODO(me): currentPositionをFirestoreのindexコレクションに追加する。
                   // とりあえず、10000を渡す。
                   model.testCurrentPosition = 10000;
                   await model.addIndex();
