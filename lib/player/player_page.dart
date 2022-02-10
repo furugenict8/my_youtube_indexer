@@ -80,7 +80,8 @@ class PlayerPage extends StatelessWidget {
                       // TODO(me): addIndexDialogから戻ってきたときに止めた時の状態のplayerを表示する。
                       // TODO(me): 画面遷移して戻ってきた時に同じ状態（リストとか停止している時間とか）にする。
                       model.getCurrentPosition();
-                      final showCurrentPosition = model.currentPosition;
+                      final currentPositionDisplayedInAddIndexDialog =
+                          model.currentPosition;
 
                       // showDialog<T> はダイアログの表示結果戻り値の型を指定
                       final result = await showDialog<String>(
@@ -91,7 +92,8 @@ class PlayerPage extends StatelessWidget {
 
                         // TODO(me): AlertDialogの見た目をよくしたい。
                         builder: (BuildContext context) {
-                          return AddIndexDialog(showCurrentPosition);
+                          return AddIndexDialog(
+                              currentPositionDisplayedInAddIndexDialog);
                         },
                       );
                       print('dialog result: $result');
