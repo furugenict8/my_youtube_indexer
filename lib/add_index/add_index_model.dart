@@ -8,7 +8,7 @@ class AddIndexModel extends ChangeNotifier {
   String indexTitle = '';
 
   // currentPositionのテストtestCurrentPositionを用意
-  int testCurrentPosition = 0;
+  int currentPosition = 0;
 
   // YoutubePlayerFlutter参考
   @override
@@ -29,7 +29,7 @@ class AddIndexModel extends ChangeNotifier {
     await index.add({
       //addの中はcloud_firestore 0.13.6参照　JSONみたいなやつ　Dictionary型
       'index': indexTitle, //13:08
-      'currentPosition': testCurrentPosition,
+      'currentPosition': currentPosition,
     });
   }
 }

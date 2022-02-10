@@ -52,8 +52,10 @@ class AddIndexDialog extends StatelessWidget {
                 try {
                   model.indexTitle = model.addIndexDialogTextController.text;
                   // TODO(me): currentPositionをFirestoreのindexコレクションに追加する。
-                  // とりあえず、10000を渡す。
-                  model.testCurrentPosition = 10000;
+                  // currentPositionDisplayedInAddIndexDialogをintに変換
+
+                  model.currentPosition =
+                      currentPositionDisplayedInAddIndexDialog.inMicroseconds;
                   await model.addIndex();
                   Navigator.of(context).pop('Firestoreにデータを送って、player_pageに戻る');
                 } on FormatException catch (e) {
