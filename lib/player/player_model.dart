@@ -13,18 +13,11 @@ class PlayerModel extends ChangeNotifier {
 
   late Duration currentPosition;
   late YoutubePlayerController controller;
-  late TextEditingController addIndexDialogTextController;
   late PlayerState _playerState;
   bool _isPlayerReady = false;
 
   // documentの要素Indexのリストをモデルで持たせる。
   List<Index> indexList = [];
-
-  // Indexのタイトルを用意
-  String indexTitle = '';
-
-  // currentPositonのテストtestCurrentPostionを用意
-  int testCurrentPosition = 0;
 
   // playerの初期化
   void init() {
@@ -45,7 +38,6 @@ class PlayerModel extends ChangeNotifier {
     )..addListener(listener);
 
     // index入力フォームのため
-    addIndexDialogTextController = TextEditingController();
     _playerState = PlayerState.unknown;
     currentPosition = Duration.zero;
 
@@ -65,7 +57,6 @@ class PlayerModel extends ChangeNotifier {
   void dispose() {
     // TODO(me): implement dispose
     controller.dispose();
-    addIndexDialogTextController.dispose();
     super.dispose();
   }
 
@@ -85,21 +76,5 @@ class PlayerModel extends ChangeNotifier {
     // Indexへ変換。それをListにして、indexListに代入する。
     indexList = document.docs.map((doc) => Index(doc)).toList();
     notifyListeners();
-  }
-
-  Future<void> addIndex() async {
-    //ここでバリデーションする　13:27
-    if (indexTitle.isEmpty) {
-      // Linterで指摘うけないように、FormatException使ってみた。
-      throw const FormatException('タイトル入力してください。');
-    }
-    final CollectionReference index = FirebaseFirestore.instance.collection(
-      'indexes',
-    );
-    await index.add({
-      //addの中はcloud_firestore 0.13.6参照　JSONみたいなやつ　Dictionaly型
-      'index': indexTitle, //13:08
-      'currentPosition': testCurrentPosition,
-    });
   }
 }

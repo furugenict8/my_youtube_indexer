@@ -52,7 +52,8 @@ class PlayerPage extends StatelessWidget {
                             leading: const Text('停止した時の\n動画のサムネ'),
                             title: Text('title: ${showIndexList[index].index}'),
                             subtitle: Text(
-                              'currentPosition: ${showIndexList[index].currentPosition}',
+                              'currentPosition: '
+                              '${showIndexList[index].currentPosition}',
                             ),
                             onTap: () {
                               // TODO(me): 再生時間から動画が再生される,
@@ -79,17 +80,18 @@ class PlayerPage extends StatelessWidget {
                       // TODO(me): addIndexDialogから戻ってきたときに止めた時の状態のplayerを表示する。
                       // TODO(me): 画面遷移して戻ってきた時に同じ状態（リストとか停止している時間とか）にする。
                       model.getCurrentPosition();
+                      final showCurrentPosition = model.currentPosition;
 
                       // showDialog<T> はダイアログの表示結果戻り値の型を指定
                       final result = await showDialog<String>(
                         context: context,
 
-                        // barrierDismissibleはダイアログ表示時の背景をタップしたときにダイアログを閉じてよいかどうか
+                        // ダイアログ表示時の背景をタップしたときにダイアログを閉じてよいかどうか
                         barrierDismissible: false,
 
                         // TODO(me): AlertDialogの見た目をよくしたい。
                         builder: (BuildContext context) {
-                          return AddIndexDialog(model);
+                          return AddIndexDialog(showCurrentPosition);
                         },
                       );
                       print('dialog result: $result');
