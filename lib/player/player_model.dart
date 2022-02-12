@@ -13,7 +13,6 @@ class PlayerModel extends ChangeNotifier {
 
   late Duration currentPosition;
   late YoutubePlayerController controller;
-  late TextEditingController addIndexDialogTextController;
   late PlayerState _playerState;
   bool _isPlayerReady = false;
 
@@ -38,11 +37,9 @@ class PlayerModel extends ChangeNotifier {
       // 今回はListener()を登録。
     )..addListener(listener);
 
-    currentPosition = Duration.zero;
-
     // index入力フォームのため
-    addIndexDialogTextController = TextEditingController();
     _playerState = PlayerState.unknown;
+    currentPosition = Duration.zero;
 
     notifyListeners();
   }
@@ -60,20 +57,22 @@ class PlayerModel extends ChangeNotifier {
   void dispose() {
     // TODO(me): implement dispose
     controller.dispose();
-    addIndexDialogTextController.dispose();
     super.dispose();
   }
 
+  //　playerの停止時の時間を取得
   void getCurrentPosition() {
     controller.pause();
     currentPosition = controller.value.position;
     notifyListeners();
   }
 
+  // indexと停止した時の時間currentPositionをfirestoreから取得
   Future<void> fetchIndex() async {
-    // firestoreのコレクションをとる。
-    final document = await FirebaseFirestore.instance.collection('index').get();
-    // コレクションのドキュメント( QueryDocumentSnapshot<Map<String, dynamic>>)を
+    // firestoreのコレクション('index')を取得する
+    final document =
+        await FirebaseFirestore.instance.collection('indexes').get();
+    // コレクションindexのドキュメント( QueryDocumentSnapshot<Map<String, dynamic>>)を
     // Indexへ変換。それをListにして、indexListに代入する。
     indexList = document.docs.map((doc) => Index(doc)).toList();
     notifyListeners();

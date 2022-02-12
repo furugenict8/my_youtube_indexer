@@ -1,45 +1,86 @@
 import 'package:flutter/material.dart';
-import 'package:my_youtube_indexer/player/player_model.dart';
 import 'package:provider/provider.dart';
 
+import 'add_index_model.dart';
+
 class AddIndexDialog extends StatelessWidget {
-  const AddIndexDialog(this.model, {Key? key}) : super(key: key);
-  final PlayerModel model;
+  const AddIndexDialog(this.currentPositionDisplayedInAddIndexDialog,
+      {Key? key})
+      : super(key: key);
+
+  // player_pageからのcurrentPositionを受け取るために変数を用意。
+  final Duration currentPositionDisplayedInAddIndexDialog;
 
   @override
   Widget build(BuildContext context) {
     // PlayerModelを使い回す。
-    return ChangeNotifierProvider<PlayerModel>.value(
-      value: PlayerModel(),
+    return ChangeNotifierProvider<AddIndexModel>(
+      create: (_) => AddIndexModel(),
       child: AlertDialog(
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            TextField(
-              controller: model.addIndexDialogTextController,
-              decoration: const InputDecoration(
-                hintText: 'index name',
-              ),
-              autofocus: true,
-              keyboardType: TextInputType.text,
-            ),
-            // TODO(me): playerで停止している時間currentPositionを表示する。
+            Consumer<AddIndexModel>(builder: (context, model, child) {
+              return TextField(
+                // controllerでTextEditingControllerが接続され、
+                // 文字の取得がcontrollerで可能になる。
+                controller: model.addIndexDialogTextController,
+                decoration: const InputDecoration(
+                  hintText: 'index name',
+                ),
+                autofocus: true,
+                keyboardType: TextInputType.text,
+              );
+            }),
             Padding(
               padding: const EdgeInsets.all(16),
               child: Text('currentPosition\n'
-                  '${model.currentPosition}'),
+                  '$currentPositionDisplayedInAddIndexDialog'),
             ),
           ],
         ),
         actions: <Widget>[
           ElevatedButton(
-            child: const Text('Cancel'),
-            onPressed: () => Navigator.of(context).pop('Cancelだよ'),
+            child: const Text('キャンセル'),
+            onPressed: () =>
+                Navigator.of(context).pop('ダイアログは消えて、player_pageに戻る'),
           ),
-          ElevatedButton(
-            child: const Text('OK'),
-            onPressed: () => Navigator.of(context).pop('index追加だよ。'),
-          ),
+          Consumer<AddIndexModel>(builder: (context, model, child) {
+            return ElevatedButton(
+              child: const Text('OK'),
+              onPressed: () async {
+                try {
+                  // 入力フォームに入力された文字をmodelのindexTitleに入れる。
+                  model.indexTitle = model.addIndexDialogTextController.text;
+
+                  // firestoreにint currentPositionを入れるためにDurationを整形する。
+                  // currentPositionDisplayedInAddIndexDialogをintに変換して
+                  // modelのcurrentPositionに持たせる。
+                  model.currentPosition =
+                      currentPositionDisplayedInAddIndexDialog.inMicroseconds;
+                  await model.addIndex();
+                  Navigator.of(context).pop('Firestoreにデータを送って、player_pageに戻る');
+                } on FormatException catch (e) {
+                  await showDialog<AlertDialog>(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text(e.message.toString()),
+                        actions: <Widget>[
+                          ElevatedButton(
+                            child: const Text('OK'),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                }
+              },
+            );
+          }),
         ],
       ),
     );
