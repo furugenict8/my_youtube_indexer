@@ -37,10 +37,6 @@ class PlayerPage extends StatelessWidget {
                   children: [
                     // youtube_player_flutterのこと。
                     player,
-                    Text(
-                      'FloatingActionButtonがタップされた時のposition\n'
-                      '${model.currentPosition}',
-                    ),
                     // ListViewの部分
                     Expanded(
                       child: ListView.builder(
@@ -53,7 +49,15 @@ class PlayerPage extends StatelessWidget {
                             title: Text('title: ${showIndexList[index].index}'),
                             subtitle: Text(
                               'currentPosition: '
-                              '${showIndexList[index].currentPosition}',
+                              '${Duration(
+                                days: 0,
+                                hours: 0,
+                                minutes: 0,
+                                seconds: 0,
+                                milliseconds: 0,
+                                microseconds:
+                                    showIndexList[index].currentPosition,
+                              )}',
                             ),
                             onTap: () {
                               // TODO(me): 再生時間から動画が再生される,
