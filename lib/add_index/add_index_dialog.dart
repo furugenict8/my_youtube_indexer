@@ -50,10 +50,12 @@ class AddIndexDialog extends StatelessWidget {
               child: const Text('OK'),
               onPressed: () async {
                 try {
+                  // 入力フォームに入力された文字をmodelのindexTitleに入れる。
                   model.indexTitle = model.addIndexDialogTextController.text;
-                  // TODO(me): currentPositionをFirestoreのindexコレクションに追加する。
-                  // currentPositionDisplayedInAddIndexDialogをintに変換
 
+                  // firestoreにint currentPositionを入れるためにDurationを整形する。
+                  // currentPositionDisplayedInAddIndexDialogをintに変換して
+                  // modelのcurrentPositionに持たせる。
                   model.currentPosition =
                       currentPositionDisplayedInAddIndexDialog.inMicroseconds;
                   await model.addIndex();

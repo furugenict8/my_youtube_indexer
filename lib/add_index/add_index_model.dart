@@ -7,7 +7,8 @@ class AddIndexModel extends ChangeNotifier {
   // Indexのタイトルを用意
   String indexTitle = '';
 
-  // currentPositionのテストtestCurrentPositionを用意
+  // 動画を止めた時のcurrentPositionを用意。
+  // Firestoreに入れるためDurationではなくint
   int currentPosition = 0;
 
   // YoutubePlayerFlutter参考
@@ -18,7 +19,7 @@ class AddIndexModel extends ChangeNotifier {
   }
 
   Future<void> addIndex() async {
-    //ここでバリデーションする　13:27
+    //ここでバリデーションする
     if (indexTitle.isEmpty) {
       // Linterで指摘うけないように、FormatException使ってみた。
       throw const FormatException('タイトル入力してください。');
