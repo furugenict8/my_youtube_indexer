@@ -14,7 +14,7 @@ class PlayerModel extends ChangeNotifier {
   late Duration currentPosition;
   late YoutubePlayerController controller;
   late PlayerState _playerState;
-  bool _isPlayerReady = false;
+  final bool _isPlayerReady = false;
 
   // documentの要素Indexのリストをモデルで持たせる。
   List<Index> indexList = [];
@@ -69,7 +69,7 @@ class PlayerModel extends ChangeNotifier {
 
   // indexと停止した時の時間currentPositionをfirestoreから取得
   Future<void> fetchIndex() async {
-    // firestoreのコレクション('index')を取得する
+    // Firestoreのコレクション('index')を取得する
     final document =
         await FirebaseFirestore.instance.collection('indexes').get();
     // コレクションindexのドキュメント( QueryDocumentSnapshot<Map<String, dynamic>>)を

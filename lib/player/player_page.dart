@@ -11,12 +11,12 @@ class PlayerPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //Full screen対応のためのYoutubePlayerBuilder
     return ChangeNotifierProvider<PlayerModel>(
+      // ListView.builder実行の前にここで、fetchIndex()をやっておく
       create: (_) => PlayerModel()..fetchIndex(),
       child: Consumer<PlayerModel>(
         builder: (context, model, child) {
-          // ListView.builder実行の前にここで、fetchIndex()をやっておく
+          //Full screen対応のためのYoutubePlayerBuilder
           return YoutubePlayerBuilder(
             player: YoutubePlayer(
               controller: model.controller,
@@ -44,9 +44,12 @@ class PlayerPage extends StatelessWidget {
                         itemCount: model.indexList.length,
                         itemBuilder: (context, index) {
                           final showIndexList = model.indexList;
+                          // ListTileごとのtitle indexTitle
+                          // TODO(): これをadd_index_dialogに渡して、更新の時にTextFieldに表示したい。
+                          final indexTitle = showIndexList[index].index;
                           return ListTile(
                             leading: const Text('停止した時の\n動画のサムネ'),
-                            title: Text('title: ${showIndexList[index].index}'),
+                            title: Text('title: $indexTitle'),
                             subtitle: Text(
                               'currentPosition: '
                               '${Duration(
@@ -87,7 +90,9 @@ class PlayerPage extends StatelessWidget {
                                         // TODO(me): AlertDialogの見た目をよくしたい。
                                         builder: (BuildContext context) {
                                           return AddIndexDialog(
-                                              currentPositionDisplayedInAddIndexDialog);
+                                            currentPositionDisplayedInAddIndexDialog,
+                                            indexTitle: indexTitle,
+                                          );
                                         },
                                       );
                                     },
