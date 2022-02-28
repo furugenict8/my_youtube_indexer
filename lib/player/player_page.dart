@@ -62,13 +62,35 @@ class PlayerPage extends StatelessWidget {
                             onTap: () {
                               // TODO(me): 再生時間から動画が再生される,
                             },
-                            trailing: GestureDetector(
-                              onTap: () {
-                                //　TODO(me): ボタンを押したらこのListTileが削除される操作
-                              },
-                              child: const Icon(
-                                Icons.close,
-                                color: Colors.red,
+                            trailing: FittedBox(
+                              fit: BoxFit.fill,
+                              child: Row(
+                                children: [
+                                  GestureDetector(
+                                    onTap: () {
+                                      //　TODO(me): ボタンを押したらこのListTileが編集される操作
+                                    },
+                                    child: const Padding(
+                                      padding: EdgeInsets.all(8),
+                                      child: Icon(
+                                        Icons.edit,
+                                        color: Colors.grey,
+                                      ),
+                                    ),
+                                  ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      //　TODO(me): ボタンを押したらこのListTileが削除される操作
+                                    },
+                                    child: const Padding(
+                                      padding: EdgeInsets.all(8),
+                                      child: Icon(
+                                        Icons.delete,
+                                        color: Colors.grey,
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                           );
