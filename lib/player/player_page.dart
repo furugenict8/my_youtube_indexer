@@ -69,6 +69,27 @@ class PlayerPage extends StatelessWidget {
                                   GestureDetector(
                                     onTap: () {
                                       //　TODO(me): ボタンを押したらこのListTileが編集される操作
+                                      //　TODO(me): ボタンタップでAddIndexDialogが表示
+                                      //　TODO(me): index入力欄には選択されているListTileのtitleが入っている。
+                                      //　TODO(me): ボタンのtextは更新の文字に変わる
+                                      //　TODO(me): indexは編集されないと更新ボタンはグレーアウトでタップできない。
+                                      //　TODO(me): indexが編集されると更新ボタンをタップしてFirestoreにデータが反映される。
+                                      //　TODO(me): player_pageに戻るとListTileは更新されている。
+                                      //　TODO(me): 更新のタイミングでSnackBar「indexは更新されました」と表示する。
+                                      final currentPositionDisplayedInAddIndexDialog =
+                                          model.currentPosition;
+                                      final result = showDialog<String>(
+                                        context: context,
+
+                                        // ダイアログ表示時の背景をタップしたときにダイアログを閉じてよいかどうか
+                                        barrierDismissible: false,
+
+                                        // TODO(me): AlertDialogの見た目をよくしたい。
+                                        builder: (BuildContext context) {
+                                          return AddIndexDialog(
+                                              currentPositionDisplayedInAddIndexDialog);
+                                        },
+                                      );
                                     },
                                     child: const Padding(
                                       padding: EdgeInsets.all(8),

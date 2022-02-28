@@ -53,7 +53,7 @@ class AddIndexDialog extends StatelessWidget {
                   // 入力フォームに入力された文字をmodelのindexTitleに入れる。
                   model.indexTitle = model.addIndexDialogTextController.text;
 
-                  // firestoreにint currentPositionを入れるためにDurationを整形する。
+                  // Firestoreにint currentPositionを入れるためにDurationを整形する。
                   // currentPositionDisplayedInAddIndexDialogをintに変換して
                   // modelのcurrentPositionに持たせる。
                   model.currentPosition =
