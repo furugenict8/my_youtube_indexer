@@ -67,7 +67,7 @@ class PlayerModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  // indexと停止した時の時間currentPositionをfirestoreから取得
+  // titleと停止した時の時間currentPositionをfirestoreから取得
   Future<void> fetchIndex() async {
     // Firestoreのコレクション('index')を取得する
     final document =

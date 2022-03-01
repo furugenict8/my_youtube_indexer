@@ -42,11 +42,12 @@ class PlayerPage extends StatelessWidget {
                       child: ListView.builder(
                         shrinkWrap: true,
                         itemCount: model.indexList.length,
-                        itemBuilder: (context, index) {
+                        itemBuilder: (context, indexNumber) {
                           final showIndexList = model.indexList;
                           // ListTileごとのtitle indexTitle
                           // TODO(): これをadd_index_dialogに渡して、更新の時にTextFieldに表示したい。
-                          final indexTitle = showIndexList[index].index;
+                          final indexTitle =
+                              showIndexList[indexNumber].indexTitle;
                           return ListTile(
                             leading: const Text('停止した時の\n動画のサムネ'),
                             title: Text('title: $indexTitle'),
@@ -59,7 +60,7 @@ class PlayerPage extends StatelessWidget {
                                 seconds: 0,
                                 milliseconds: 0,
                                 microseconds:
-                                    showIndexList[index].currentPosition,
+                                    showIndexList[indexNumber].currentPosition,
                               )}',
                             ),
                             onTap: () {
@@ -69,19 +70,12 @@ class PlayerPage extends StatelessWidget {
                               fit: BoxFit.fill,
                               child: Row(
                                 children: [
-                                  GestureDetector(
-                                    onTap: () {
-                                      //　TODO(me): ボタンを押したらこのListTileが編集される操作
-                                      //　TODO(me): ボタンタップでAddIndexDialogが表示
-                                      //　TODO(me): index入力欄には選択されているListTileのtitleが入っている。
-                                      //　TODO(me): ボタンのtextは更新の文字に変わる
-                                      //　TODO(me): indexは編集されないと更新ボタンはグレーアウトでタップできない。
-                                      //　TODO(me): indexが編集されると更新ボタンをタップしてFirestoreにデータが反映される。
-                                      //　TODO(me): player_pageに戻るとListTileは更新されている。
-                                      //　TODO(me): 更新のタイミングでSnackBar「indexは更新されました」と表示する。
+                                  IconButton(
+                                    icon: const Icon(Icons.edit),
+                                    onPressed: () async {
                                       final currentPositionDisplayedInAddIndexDialog =
                                           model.currentPosition;
-                                      final result = showDialog<String>(
+                                      await showDialog<String>(
                                         context: context,
 
                                         // ダイアログ表示時の背景をタップしたときにダイアログを閉じてよいかどうか
@@ -91,19 +85,14 @@ class PlayerPage extends StatelessWidget {
                                         builder: (BuildContext context) {
                                           return AddIndexDialog(
                                             currentPositionDisplayedInAddIndexDialog,
-                                            indexTitle: indexTitle,
+                                            index: showIndexList[indexNumber],
                                           );
                                         },
                                       );
+                                      await model.fetchIndex();
                                     },
-                                    child: const Padding(
-                                      padding: EdgeInsets.all(8),
-                                      child: Icon(
-                                        Icons.edit,
-                                        color: Colors.grey,
-                                      ),
-                                    ),
                                   ),
+                                  // TODO(me): 削除もIcomButton使って実装する。
                                   GestureDetector(
                                     onTap: () {
                                       //　TODO(me): ボタンを押したらこのListTileが削除される操作
