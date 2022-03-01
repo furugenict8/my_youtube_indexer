@@ -43,11 +43,10 @@ class PlayerPage extends StatelessWidget {
                         shrinkWrap: true,
                         itemCount: model.indexList.length,
                         itemBuilder: (context, indexNumber) {
-                          final showIndexList = model.indexList;
+                          final indexList = model.indexList;
                           // ListTileごとのtitle indexTitle
                           // TODO(): これをadd_index_dialogに渡して、更新の時にTextFieldに表示したい。
-                          final indexTitle =
-                              showIndexList[indexNumber].indexTitle;
+                          final indexTitle = indexList[indexNumber].indexTitle;
                           return ListTile(
                             leading: const Text('停止した時の\n動画のサムネ'),
                             title: Text('title: $indexTitle'),
@@ -60,7 +59,7 @@ class PlayerPage extends StatelessWidget {
                                 seconds: 0,
                                 milliseconds: 0,
                                 microseconds:
-                                    showIndexList[indexNumber].currentPosition,
+                                    indexList[indexNumber].currentPosition,
                               )}',
                             ),
                             onTap: () {
@@ -85,7 +84,7 @@ class PlayerPage extends StatelessWidget {
                                         builder: (BuildContext context) {
                                           return AddIndexDialog(
                                             currentPositionDisplayedInAddIndexDialog,
-                                            index: showIndexList[indexNumber],
+                                            index: indexList[indexNumber],
                                           );
                                         },
                                       );
@@ -127,7 +126,7 @@ class PlayerPage extends StatelessWidget {
                       // showDialog<T> はダイアログの表示結果戻り値の型を指定
                       // 今回はadd_index_dialogのNavigator.pop(true)を戻り値にしているため
                       // Genericsをboolにしている。
-                      final added = await showDialog<bool>(
+                      final indexTitle = await showDialog<String>(
                         context: context,
 
                         // ダイアログ表示時の背景をタップしたときにダイアログを閉じてよいかどうか
@@ -140,10 +139,11 @@ class PlayerPage extends StatelessWidget {
                           );
                         },
                       );
-                      if (added != null && added) {
-                        const snackBar = SnackBar(
+                      // addedがtrue(つまり、indexが追加された時)ならSnackBarを表示する。
+                      if (indexTitle != null) {
+                        final snackBar = SnackBar(
                           backgroundColor: Colors.green,
-                          content: Text('indexを追加しました！'),
+                          content: Text('"$indexTitle"を追加しました！'),
                         );
                         ScaffoldMessenger.of(context).showSnackBar(snackBar);
                       }
