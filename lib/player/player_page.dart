@@ -125,7 +125,9 @@ class PlayerPage extends StatelessWidget {
                           model.currentPosition;
 
                       // showDialog<T> はダイアログの表示結果戻り値の型を指定
-                      final result = await showDialog<String>(
+                      // 今回はadd_index_dialogのNavigator.pop(true)を戻り値にしているため
+                      // Genericsをboolにしている。
+                      final added = await showDialog<bool>(
                         context: context,
 
                         // ダイアログ表示時の背景をタップしたときにダイアログを閉じてよいかどうか
@@ -134,10 +136,17 @@ class PlayerPage extends StatelessWidget {
                         // TODO(me): AlertDialogの見た目をよくしたい。
                         builder: (BuildContext context) {
                           return AddIndexDialog(
-                              currentPositionDisplayedInAddIndexDialog);
+                            currentPositionDisplayedInAddIndexDialog,
+                          );
                         },
                       );
-                      print('dialog result: $result');
+                      if (added != null && added) {
+                        const snackBar = SnackBar(
+                          backgroundColor: Colors.green,
+                          content: Text('indexを追加しました！'),
+                        );
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      }
                       await model.fetchIndex();
                     },
                     tooltip: '押したら動画の現在時刻を取得して表示する',
