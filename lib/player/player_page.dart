@@ -11,12 +11,12 @@ class PlayerPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //Full screen対応のためのYoutubePlayerBuilder
     return ChangeNotifierProvider<PlayerModel>(
+      // ListView.builder実行の前にここで、fetchIndex()をやっておく
       create: (_) => PlayerModel()..fetchIndex(),
       child: Consumer<PlayerModel>(
         builder: (context, model, child) {
-          // ListView.builder実行の前にここで、fetchIndex()をやっておく
+          //Full screen対応のためのYoutubePlayerBuilder
           return YoutubePlayerBuilder(
             player: YoutubePlayer(
               controller: model.controller,
@@ -42,11 +42,15 @@ class PlayerPage extends StatelessWidget {
                       child: ListView.builder(
                         shrinkWrap: true,
                         itemCount: model.indexList.length,
-                        itemBuilder: (context, index) {
+                        itemBuilder: (context, indexNumber) {
                           final showIndexList = model.indexList;
+                          // ListTileごとのtitle indexTitle
+                          // TODO(): これをadd_index_dialogに渡して、更新の時にTextFieldに表示したい。
+                          final indexTitle =
+                              showIndexList[indexNumber].indexTitle;
                           return ListTile(
                             leading: const Text('停止した時の\n動画のサムネ'),
-                            title: Text('title: ${showIndexList[index].index}'),
+                            title: Text('title: $indexTitle'),
                             subtitle: Text(
                               'currentPosition: '
                               '${Duration(
@@ -56,7 +60,7 @@ class PlayerPage extends StatelessWidget {
                                 seconds: 0,
                                 milliseconds: 0,
                                 microseconds:
-                                    showIndexList[index].currentPosition,
+                                    showIndexList[indexNumber].currentPosition,
                               )}',
                             ),
                             onTap: () {
@@ -66,18 +70,29 @@ class PlayerPage extends StatelessWidget {
                               fit: BoxFit.fill,
                               child: Row(
                                 children: [
-                                  GestureDetector(
-                                    onTap: () {
-                                      //　TODO(me): ボタンを押したらこのListTileが編集される操作
+                                  IconButton(
+                                    icon: const Icon(Icons.edit),
+                                    onPressed: () async {
+                                      final currentPositionDisplayedInAddIndexDialog =
+                                          model.currentPosition;
+                                      await showDialog<String>(
+                                        context: context,
+
+                                        // ダイアログ表示時の背景をタップしたときにダイアログを閉じてよいかどうか
+                                        barrierDismissible: false,
+
+                                        // TODO(me): AlertDialogの見た目をよくしたい。
+                                        builder: (BuildContext context) {
+                                          return AddIndexDialog(
+                                            currentPositionDisplayedInAddIndexDialog,
+                                            index: showIndexList[indexNumber],
+                                          );
+                                        },
+                                      );
+                                      await model.fetchIndex();
                                     },
-                                    child: const Padding(
-                                      padding: EdgeInsets.all(8),
-                                      child: Icon(
-                                        Icons.edit,
-                                        color: Colors.grey,
-                                      ),
-                                    ),
                                   ),
+                                  // TODO(me): 削除もIcomButton使って実装する。
                                   GestureDetector(
                                     onTap: () {
                                       //　TODO(me): ボタンを押したらこのListTileが削除される操作
