@@ -85,7 +85,7 @@ class AddIndexDialog extends StatelessWidget {
       model.currentPosition =
           currentPositionDisplayedInAddIndexDialog.inMicroseconds;
       await model.updateIndex(index!);
-      Navigator.of(context).pop();
+      Navigator.of(context).pop(model.indexTitle);
     } on FormatException catch (e) {
       await showDialog<AlertDialog>(
         context: context,
