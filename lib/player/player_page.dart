@@ -74,7 +74,10 @@ class PlayerPage extends StatelessWidget {
                                     onPressed: () async {
                                       final currentPositionDisplayedInAddIndexDialog =
                                           model.currentPosition;
-                                      await showDialog<String>(
+
+                                      // Navigator.pop(model.indexTitle)をindexTitleで受け取る
+                                      final indexTitle =
+                                          await showDialog<String>(
                                         context: context,
 
                                         // ダイアログ表示時の背景をタップしたときにダイアログを閉じてよいかどうか
@@ -88,6 +91,17 @@ class PlayerPage extends StatelessWidget {
                                           );
                                         },
                                       );
+
+                                      // showSnackBarの返り値indexTitleがあれば、SnackBarを表示。
+                                      if (indexTitle != null) {
+                                        final snackBar = SnackBar(
+                                          backgroundColor: Colors.green,
+                                          content:
+                                              Text('"$indexTitle"を更新しました！'),
+                                        );
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(snackBar);
+                                      }
                                       await model.fetchIndex();
                                     },
                                   ),
