@@ -14,6 +14,9 @@ class AddIndexModel extends ChangeNotifier {
   // Firestoreに入れるためDurationではなくint
   int currentPosition = 0;
 
+  // 削除されたindexTitle用。削除された時にplayer画面で表示されるSnackBarのためにとっておく。
+  String deletedIndexTitle = '';
+
   // YoutubePlayerFlutter参考
   @override
   void dispose() {
@@ -47,5 +50,13 @@ class AddIndexModel extends ChangeNotifier {
     await document.update(
       {'title': indexTitle},
     );
+  }
+
+  // indexを削除する。
+  Future<void> deleteIndex(Index index) async {
+    final document = FirebaseFirestore.instance.collection('indexes').doc(index
+        .documentID); // indexのイニシャライザでFirestoreのdocumentIDを取得し、documentに入れる。(14:28 Fires)
+    deletedIndexTitle = index.indexTitle;
+    await document.delete();
   }
 }

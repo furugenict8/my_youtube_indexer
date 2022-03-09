@@ -114,8 +114,8 @@ class PlayerPage extends StatelessWidget {
                                   IconButton(
                                     icon: const Icon(Icons.delete),
                                     onPressed: () async {
-                                      // Navigator.pop(model.indexTitle)をindexTitleで受け取る
-                                      final indexTitle =
+                                      // Navigator.pop(model.deletedIndexTitle)をdeletedIndexTitleで受け取る
+                                      final deletedIndexTitle =
                                           await showDialog<String>(
                                         context: context,
 
@@ -132,11 +132,11 @@ class PlayerPage extends StatelessWidget {
                                       );
 
                                       // showSnackBarの返り値indexTitleがあれば、SnackBarを表示。
-                                      if (indexTitle != null) {
+                                      if (deletedIndexTitle != null) {
                                         final snackBar = SnackBar(
-                                          backgroundColor: Colors.green,
-                                          content:
-                                              Text('"$indexTitle"を削除しました！'),
+                                          backgroundColor: Colors.red,
+                                          content: Text(
+                                              '"$deletedIndexTitle"を削除しました！'),
                                         );
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(snackBar);

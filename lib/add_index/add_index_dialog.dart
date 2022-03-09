@@ -12,7 +12,6 @@ class AddIndexDialog extends StatelessWidget {
 
   //　add, update, deleteを判別するためのenum　UsersActionState
   final UsersActionState usersActionState;
-
   //　indexのtitleを受け取るために変数を用意。
   final Index? index;
   // player_pageからのcurrentPositionを受け取るために変数を用意。
@@ -100,8 +99,8 @@ class AddIndexDialog extends StatelessWidget {
                 case UsersActionState.delete:
                   return ElevatedButton(
                     child: Text('削除'),
-                    onPressed: () {
-                      // TODO(me): 削除処理
+                    onPressed: () async {
+                      await deleteIndex(context, model);
                     },
                   );
               }
@@ -110,6 +109,39 @@ class AddIndexDialog extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  // indexを追加する時の処理。
+  Future<void> addIndex(BuildContext context, AddIndexModel model) async {
+    try {
+      // 入力フォームに入力された文字をmodelのindexTitleに入れる。
+      model.indexTitle = model.addIndexDialogTextEditingController.text;
+
+      // Firestoreにint currentPositionを入れるためにDurationを整形する。
+      // currentPositionDisplayedInAddIndexDialogをintに変換して
+      // modelのcurrentPositionに持たせる。
+      model.currentPosition =
+          currentPositionDisplayedInAddIndexDialog!.inMicroseconds;
+      await model.addIndex();
+      Navigator.of(context).pop(model.indexTitle);
+    } on FormatException catch (e) {
+      await showDialog<AlertDialog>(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text(e.message.toString()),
+            actions: <Widget>[
+              ElevatedButton(
+                child: const Text('OK'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
   }
 
   // indexを更新する時の処理。
@@ -146,35 +178,9 @@ class AddIndexDialog extends StatelessWidget {
   }
 
   // indexを追加する時の処理。
-  Future<void> addIndex(BuildContext context, AddIndexModel model) async {
-    try {
-      // 入力フォームに入力された文字をmodelのindexTitleに入れる。
-      model.indexTitle = model.addIndexDialogTextEditingController.text;
-
-      // Firestoreにint currentPositionを入れるためにDurationを整形する。
-      // currentPositionDisplayedInAddIndexDialogをintに変換して
-      // modelのcurrentPositionに持たせる。
-      model.currentPosition =
-          currentPositionDisplayedInAddIndexDialog!.inMicroseconds;
-      await model.addIndex();
-      Navigator.of(context).pop(model.indexTitle);
-    } on FormatException catch (e) {
-      await showDialog<AlertDialog>(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text(e.message.toString()),
-            actions: <Widget>[
-              ElevatedButton(
-                child: const Text('OK'),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-          );
-        },
-      );
-    }
+  Future<void> deleteIndex(BuildContext context, AddIndexModel model) async {
+    //　選択されたListTileのindexを表示
+    await model.deleteIndex(index!);
+    Navigator.of(context).pop(model.deletedIndexTitle);
   }
 }
