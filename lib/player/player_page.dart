@@ -69,6 +69,7 @@ class PlayerPage extends StatelessWidget {
                               fit: BoxFit.fill,
                               child: Row(
                                 children: [
+                                  //　編集ボタン
                                   IconButton(
                                     icon: const Icon(Icons.edit),
                                     onPressed: () async {
@@ -86,7 +87,9 @@ class PlayerPage extends StatelessWidget {
                                         // TODO(me): AlertDialogの見た目をよくしたい。
                                         builder: (BuildContext context) {
                                           return AddIndexDialog(
-                                            currentPositionDisplayedInAddIndexDialog,
+                                            UsersActionState.update,
+                                            currentPositionDisplayedInAddIndexDialog:
+                                                currentPositionDisplayedInAddIndexDialog,
                                             index: indexList[indexNumber],
                                           );
                                         },
@@ -106,17 +109,40 @@ class PlayerPage extends StatelessWidget {
                                     },
                                   ),
                                   // TODO(me): 削除もIcomButton使って実装する。
-                                  GestureDetector(
-                                    onTap: () {
-                                      //　TODO(me): ボタンを押したらこのListTileが削除される操作
+
+                                  // 削除ボタン
+                                  IconButton(
+                                    icon: const Icon(Icons.delete),
+                                    onPressed: () async {
+                                      // Navigator.pop(model.deletedIndexTitle)をdeletedIndexTitleで受け取る
+                                      final deletedIndexTitle =
+                                          await showDialog<String>(
+                                        context: context,
+
+                                        // ダイアログ表示時の背景をタップしたときにダイアログを閉じてよいかどうか
+                                        barrierDismissible: false,
+
+                                        // TODO(me): AlertDialogの見た目をよくしたい。
+                                        builder: (BuildContext context) {
+                                          return AddIndexDialog(
+                                            UsersActionState.delete,
+                                            index: indexList[indexNumber],
+                                          );
+                                        },
+                                      );
+
+                                      // showSnackBarの返り値indexTitleがあれば、SnackBarを表示。
+                                      if (deletedIndexTitle != null) {
+                                        final snackBar = SnackBar(
+                                          backgroundColor: Colors.red,
+                                          content: Text(
+                                              '"$deletedIndexTitle"を削除しました！'),
+                                        );
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(snackBar);
+                                      }
+                                      await model.fetchIndex();
                                     },
-                                    child: const Padding(
-                                      padding: EdgeInsets.all(8),
-                                      child: Icon(
-                                        Icons.delete,
-                                        color: Colors.grey,
-                                      ),
-                                    ),
                                   ),
                                 ],
                               ),
@@ -149,7 +175,9 @@ class PlayerPage extends StatelessWidget {
                         // TODO(me): AlertDialogの見た目をよくしたい。
                         builder: (BuildContext context) {
                           return AddIndexDialog(
-                            currentPositionDisplayedInAddIndexDialog,
+                            UsersActionState.add,
+                            currentPositionDisplayedInAddIndexDialog:
+                                currentPositionDisplayedInAddIndexDialog,
                           );
                         },
                       );

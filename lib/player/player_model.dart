@@ -78,3 +78,6 @@ class PlayerModel extends ChangeNotifier {
     notifyListeners();
   }
 }
+
+// userがadd、update、deleteのどのボタンをタップしたかを判別するためのenum
+enum UsersActionState { add, update, delete }
