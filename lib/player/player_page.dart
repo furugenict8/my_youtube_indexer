@@ -45,25 +45,29 @@ class PlayerPage extends StatelessWidget {
                         itemBuilder: (context, indexNumber) {
                           final indexList = model.indexList;
                           // ListTileごとのtitle indexTitle
-                          // TODO(): これをadd_index_dialogに渡して、更新の時にTextFieldに表示したい。
                           final indexTitle = indexList[indexNumber].indexTitle;
+                          // ListTileに表示されるcurrentPosition
+                          final currentPosition = Duration(
+                            days: 0,
+                            hours: 0,
+                            minutes: 0,
+                            seconds: 0,
+                            milliseconds: 0,
+                            microseconds:
+                                indexList[indexNumber].currentPosition,
+                          );
+
                           return ListTile(
                             leading: const Text('停止した時の\n動画のサムネ'),
                             title: Text('title: $indexTitle'),
                             subtitle: Text(
                               'currentPosition: '
-                              '${Duration(
-                                days: 0,
-                                hours: 0,
-                                minutes: 0,
-                                seconds: 0,
-                                milliseconds: 0,
-                                microseconds:
-                                    indexList[indexNumber].currentPosition,
-                              )}',
+                              '$currentPosition',
                             ),
                             onTap: () {
-                              // TODO(me): 再生時間から動画が再生される,
+                              model.controller.seekTo(
+                                currentPosition,
+                              );
                             },
                             trailing: FittedBox(
                               fit: BoxFit.fill,
