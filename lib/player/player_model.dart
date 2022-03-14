@@ -31,6 +31,7 @@ class PlayerModel extends ChangeNotifier {
         isLive: false,
         forceHD: false,
         enableCaption: true,
+        hideThumbnail: true,
       ),
 
       // addListenerはオブジェクト(YoutubePlayerController)が変更された時に呼ばれるlistener(void Callback)を登録する。
