@@ -16,17 +16,17 @@ class YoutubeListPage extends StatelessWidget {
         title: const Text('動画一覧'),
       ),
       body: ChangeNotifierProvider<YoutubeListModel>(
-        create: (_) => YoutubeListModel(),
+        create: (_) => YoutubeListModel()..fetchVideoId(),
         child: Consumer<YoutubeListModel>(builder: (context, model, child) {
           return ListView.builder(
             shrinkWrap: true,
             //　TODO(me): youtubeのListを取得してその長さを入れる。
             itemCount: model.youtubeList.length,
             itemBuilder: (context, indexNumber) {
-              final videoID = model.youtubeList[indexNumber];
+              final videoID = model.youtubeList[indexNumber].videoId;
               return ListTile(
                 leading: const Text('youtubeのサムネ'),
-                title: Text('title:  ${model.youtubeList[indexNumber]}'),
+                title: Text('title: $videoID'),
                 onTap: () {
                   // TODO(me): player_pageへ画面遷移、VideoIDをplayer_pageに渡す。
                   Navigator.push<Widget>(
@@ -57,5 +57,3 @@ class YoutubeListPage extends StatelessWidget {
     );
   }
 }
-
-// String videoID = 'nPt8bK2gbaU';
