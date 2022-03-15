@@ -1,6 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:my_youtube_indexer/player/player_page.dart';
+import 'package:my_youtube_indexer/youtube_list/youtube_list_page.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,9 +17,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      home: PlayerPage(
-          // items: List<String>.generate(10000, (i) => '動画のインデックス ${i + 1}'),
-          ),
+      home: YoutubeListPage(),
     );
   }
 }

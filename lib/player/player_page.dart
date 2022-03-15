@@ -1,19 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:my_youtube_indexer/add_index/add_index_dialog.dart';
+import 'package:my_youtube_indexer/index_dialog/index_dialog.dart';
 import 'package:my_youtube_indexer/player/player_model.dart';
 import 'package:provider/provider.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class PlayerPage extends StatelessWidget {
-  const PlayerPage({
+  PlayerPage(
+    this.videoID, {
     Key? key,
   }) : super(key: key);
+
+  String videoID = '';
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<PlayerModel>(
       // ListView.builder実行の前にここで、fetchIndex()をやっておく
-      create: (_) => PlayerModel()..fetchIndex(),
+      create: (_) => PlayerModel(videoID)..fetchIndex(),
       child: Consumer<PlayerModel>(
         builder: (context, model, child) {
           //Full screen対応のためのYoutubePlayerBuilder
@@ -90,7 +93,7 @@ class PlayerPage extends StatelessWidget {
 
                                         // TODO(me): AlertDialogの見た目をよくしたい。
                                         builder: (BuildContext context) {
-                                          return AddIndexDialog(
+                                          return IndexDialog(
                                             UsersActionState.update,
                                             currentPositionDisplayedInAddIndexDialog:
                                                 currentPositionDisplayedInAddIndexDialog,
@@ -112,7 +115,7 @@ class PlayerPage extends StatelessWidget {
                                       await model.fetchIndex();
                                     },
                                   ),
-                                  // TODO(me): 削除もIcomButton使って実装する。
+                                  // TODO(me): 削除もIconButton使って実装する。
 
                                   // 削除ボタン
                                   IconButton(
@@ -128,7 +131,7 @@ class PlayerPage extends StatelessWidget {
 
                                         // TODO(me): AlertDialogの見た目をよくしたい。
                                         builder: (BuildContext context) {
-                                          return AddIndexDialog(
+                                          return IndexDialog(
                                             UsersActionState.delete,
                                             index: indexList[indexNumber],
                                           );
@@ -178,7 +181,7 @@ class PlayerPage extends StatelessWidget {
 
                         // TODO(me): AlertDialogの見た目をよくしたい。
                         builder: (BuildContext context) {
-                          return AddIndexDialog(
+                          return IndexDialog(
                             UsersActionState.add,
                             currentPositionDisplayedInAddIndexDialog:
                                 currentPositionDisplayedInAddIndexDialog,
