@@ -7,7 +7,7 @@ import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 //　なのでコンストラクタ内でinitすればよさそう。
 // salon appと違うけど。
 class PlayerModel extends ChangeNotifier {
-  PlayerModel() {
+  PlayerModel(this.videoId) {
     init();
   }
 
@@ -19,10 +19,13 @@ class PlayerModel extends ChangeNotifier {
   // documentの要素Indexのリストをモデルで持たせる。
   List<Index> indexList = [];
 
+  // youtubeのvideoID
+  String videoId = '';
+
   // playerの初期化
   void init() {
     controller = YoutubePlayerController(
-      initialVideoId: 'nPt8bK2gbaU',
+      initialVideoId: videoId,
       flags: const YoutubePlayerFlags(
         mute: false,
         autoPlay: true,

@@ -16,7 +16,7 @@ class PlayerPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<PlayerModel>(
       // ListView.builder実行の前にここで、fetchIndex()をやっておく
-      create: (_) => PlayerModel()..fetchIndex(),
+      create: (_) => PlayerModel(videoID)..fetchIndex(),
       child: Consumer<PlayerModel>(
         builder: (context, model, child) {
           //Full screen対応のためのYoutubePlayerBuilder
@@ -115,7 +115,7 @@ class PlayerPage extends StatelessWidget {
                                       await model.fetchIndex();
                                     },
                                   ),
-                                  // TODO(me): 削除もIcomButton使って実装する。
+                                  // TODO(me): 削除もIconButton使って実装する。
 
                                   // 削除ボタン
                                   IconButton(

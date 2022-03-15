@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:my_youtube_indexer/youtube_list/youtube_list_model.dart';
+import 'package:provider/provider.dart';
 
 import '../player/player_page.dart';
 
@@ -13,29 +15,36 @@ class YoutubeListPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('動画一覧'),
       ),
-      body: ListView.builder(
-        shrinkWrap: true,
-        //　TODO(me): youtubeのListを取得してその長さを入れる。
-        itemCount: 3,
-        itemBuilder: (context, indexNumber) {
-          return ListTile(
-            leading: const Text('youtubeのサムネ'),
-            title: Text('title:  動画のタイトル'),
-            onTap: () {
-              // TODO(me): player_pageへ画面遷移、VideoIDをplayer_pageに渡す。
-              Navigator.push<Widget>(
-                context,
-                MaterialPageRoute(builder: (context) => PlayerPage(videoID)),
+      body: ChangeNotifierProvider<YoutubeListModel>(
+        create: (_) => YoutubeListModel(),
+        child: Consumer<YoutubeListModel>(builder: (context, model, child) {
+          return ListView.builder(
+            shrinkWrap: true,
+            //　TODO(me): youtubeのListを取得してその長さを入れる。
+            itemCount: model.youtubeList.length,
+            itemBuilder: (context, indexNumber) {
+              final videoID = model.youtubeList[indexNumber];
+              return ListTile(
+                leading: const Text('youtubeのサムネ'),
+                title: Text('title:  ${model.youtubeList[indexNumber]}'),
+                onTap: () {
+                  // TODO(me): player_pageへ画面遷移、VideoIDをplayer_pageに渡す。
+                  Navigator.push<Widget>(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => PlayerPage(videoID)),
+                  );
+                },
+                trailing: IconButton(
+                  icon: const Icon(Icons.delete),
+                  onPressed: () async {
+                    // TODO(me): 削除確認ダイアログを表示。
+                  },
+                ),
               );
             },
-            trailing: IconButton(
-              icon: const Icon(Icons.delete),
-              onPressed: () async {
-                // TODO(me): 削除確認ダイアログを表示。
-              },
-            ),
           );
-        },
+        }),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -49,4 +58,4 @@ class YoutubeListPage extends StatelessWidget {
   }
 }
 
-String videoID = 'nPt8bK2gbaU';
+// String videoID = 'nPt8bK2gbaU';
