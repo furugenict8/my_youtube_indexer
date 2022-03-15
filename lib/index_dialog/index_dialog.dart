@@ -3,10 +3,10 @@ import 'package:provider/provider.dart';
 
 import '../domain/index.dart';
 import '../player/player_model.dart';
-import 'add_index_model.dart';
+import 'index_model.dart';
 
-class AddIndexDialog extends StatelessWidget {
-  const AddIndexDialog(this.usersActionState,
+class IndexDialog extends StatelessWidget {
+  const IndexDialog(this.usersActionState,
       {this.currentPositionDisplayedInAddIndexDialog, this.index, Key? key})
       : super(key: key);
 
@@ -20,10 +20,10 @@ class AddIndexDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // PlayerModelを使い回す。
-    return ChangeNotifierProvider<AddIndexModel>(
-      create: (_) => AddIndexModel(),
+    return ChangeNotifierProvider<IndexModel>(
+      create: (_) => IndexModel(),
       child: AlertDialog(
-        content: Consumer<AddIndexModel>(
+        content: Consumer<IndexModel>(
           builder: (context, model, child) {
             // Dialog画面をupdate、delete、addで条件分岐してそれぞれ表示
             switch (usersActionState) {
@@ -79,7 +79,7 @@ class AddIndexDialog extends StatelessWidget {
             onPressed: () => Navigator.of(context).pop(),
           ),
           //　isUpdated、isDeleted、それ以外(add)でボタンの動作を変える。
-          Consumer<AddIndexModel>(
+          Consumer<IndexModel>(
             builder: (context, model, child) {
               switch (usersActionState) {
                 case UsersActionState.add:
@@ -112,7 +112,7 @@ class AddIndexDialog extends StatelessWidget {
   }
 
   // indexを追加する時の処理。
-  Future<void> addIndex(BuildContext context, AddIndexModel model) async {
+  Future<void> addIndex(BuildContext context, IndexModel model) async {
     try {
       // 入力フォームに入力された文字をmodelのindexTitleに入れる。
       model.indexTitle = model.addIndexDialogTextEditingController.text;
@@ -145,7 +145,7 @@ class AddIndexDialog extends StatelessWidget {
   }
 
   // indexを更新する時の処理。
-  Future<void> updateIndex(BuildContext context, AddIndexModel model) async {
+  Future<void> updateIndex(BuildContext context, IndexModel model) async {
     try {
       // 入力フォームに入力された文字をmodelのindexTitleに入れる。
       model.indexTitle = model.addIndexDialogTextEditingController.text;
@@ -178,7 +178,7 @@ class AddIndexDialog extends StatelessWidget {
   }
 
   // indexを追加する時の処理。
-  Future<void> deleteIndex(BuildContext context, AddIndexModel model) async {
+  Future<void> deleteIndex(BuildContext context, IndexModel model) async {
     //　選択されたListTileのindexを表示
     await model.deleteIndex(index!);
     Navigator.of(context).pop(model.deletedIndexTitle);

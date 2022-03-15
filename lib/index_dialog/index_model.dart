@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../domain/index.dart';
 
-class AddIndexModel extends ChangeNotifier {
+class IndexModel extends ChangeNotifier {
   TextEditingController addIndexDialogTextEditingController =
       TextEditingController();
 
