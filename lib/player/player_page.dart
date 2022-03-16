@@ -4,19 +4,22 @@ import 'package:my_youtube_indexer/player/player_model.dart';
 import 'package:provider/provider.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
+import '../domain/youtube.dart';
+
 class PlayerPage extends StatelessWidget {
-  PlayerPage(
-    this.videoID, {
+  const PlayerPage(
+    this.youtube, {
     Key? key,
   }) : super(key: key);
 
-  String videoID = '';
+  //　Youtube(Firestoreのエンティティ)を受け取る。
+  final Youtube youtube;
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<PlayerModel>(
       // ListView.builder実行の前にここで、fetchIndex()をやっておく
-      create: (_) => PlayerModel(videoID)..fetchIndex(),
+      create: (_) => PlayerModel(youtube.videoId)..fetchIndex(youtube),
       child: Consumer<PlayerModel>(
         builder: (context, model, child) {
           //Full screen対応のためのYoutubePlayerBuilder
@@ -112,7 +115,7 @@ class PlayerPage extends StatelessWidget {
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(snackBar);
                                       }
-                                      await model.fetchIndex();
+                                      await model.fetchIndex(youtube);
                                     },
                                   ),
                                   // TODO(me): 削除もIconButton使って実装する。
@@ -148,7 +151,7 @@ class PlayerPage extends StatelessWidget {
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(snackBar);
                                       }
-                                      await model.fetchIndex();
+                                      await model.fetchIndex(youtube);
                                     },
                                   ),
                                 ],
@@ -196,7 +199,7 @@ class PlayerPage extends StatelessWidget {
                         );
                         ScaffoldMessenger.of(context).showSnackBar(snackBar);
                       }
-                      await model.fetchIndex();
+                      await model.fetchIndex(youtube);
                     },
                     tooltip: '押したら動画の現在時刻を取得して表示する',
                     child: const Icon(Icons.add),

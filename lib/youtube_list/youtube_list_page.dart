@@ -23,16 +23,17 @@ class YoutubeListPage extends StatelessWidget {
             //　TODO(me): youtubeのListを取得してその長さを入れる。
             itemCount: model.youtubeList.length,
             itemBuilder: (context, indexNumber) {
-              final videoID = model.youtubeList[indexNumber].videoId;
+              final youtube = model.youtubeList[indexNumber];
+              final videoId = youtube.videoId;
               return ListTile(
                 leading: const Text('youtubeのサムネ'),
-                title: Text('title: $videoID'),
+                title: Text('title: $videoId'),
                 onTap: () {
                   // TODO(me): player_pageへ画面遷移、VideoIDをplayer_pageに渡す。
                   Navigator.push<Widget>(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => PlayerPage(videoID)),
+                        builder: (context) => PlayerPage(youtube)),
                   );
                 },
                 trailing: IconButton(

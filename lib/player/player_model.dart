@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:my_youtube_indexer/domain/index.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
+import '../domain/youtube.dart';
+
 // ChangeNotifierはChangeNotifierBuilderのcreateのところでコンストラクタがつかわれる。
 //　なのでコンストラクタ内でinitすればよさそう。
 // salon appと違うけど。
@@ -72,10 +74,13 @@ class PlayerModel extends ChangeNotifier {
   }
 
   // titleと停止した時の時間currentPositionをfirestoreから取得
-  Future<void> fetchIndex() async {
-    // Firestoreのコレクション('index')を取得する
-    final document =
-        await FirebaseFirestore.instance.collection('indexes').get();
+  Future<void> fetchIndex(Youtube youtube) async {
+    // Firestoreのコレクションyoutubeのそれぞれのyoutubeが持っているドキュメントの中のコレクションindexesを取得する
+    final document = await FirebaseFirestore.instance
+        .collection('youtube')
+        .doc(youtube.documentID)
+        .collection('indexes')
+        .get();
     // コレクションindexのドキュメント( QueryDocumentSnapshot<Map<String, dynamic>>)を
     // Indexへ変換。それをListにして、indexListに代入する。
     indexList = document.docs.map((doc) => Index(doc)).toList();
