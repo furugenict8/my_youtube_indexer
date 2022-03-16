@@ -123,7 +123,7 @@ class IndexDialog extends StatelessWidget {
       // modelのcurrentPositionに持たせる。
       model.currentPosition =
           currentPositionDisplayedInAddIndexDialog!.inMicroseconds;
-      await model.addIndex();
+      await model.addIndex(youtube);
       Navigator.of(context).pop(model.indexTitle);
     } on FormatException catch (e) {
       await showDialog<AlertDialog>(

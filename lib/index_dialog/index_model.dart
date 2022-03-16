@@ -25,15 +25,17 @@ class IndexModel extends ChangeNotifier {
     super.dispose();
   }
 
-  Future<void> addIndex() async {
+  Future<void> addIndex(Youtube youtube) async {
     // バリデーション
     if (indexTitle.isEmpty) {
       throw const FormatException('タイトル入力してください。');
     }
-    final CollectionReference index = FirebaseFirestore.instance.collection(
-      'indexes',
-    );
-    await index.add({
+    final document = FirebaseFirestore.instance
+        .collection('youtube')
+        .doc(youtube.documentID)
+        .collection('indexes');
+    // ここ何で、<String, dynamic>をかかないといけないのかわからない。
+    await document.add(<String, dynamic>{
       'title': indexTitle,
       'currentPosition': currentPosition,
     });
