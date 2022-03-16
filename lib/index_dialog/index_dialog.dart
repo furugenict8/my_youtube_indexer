@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_youtube_indexer/domain/youtube.dart';
 import 'package:provider/provider.dart';
 
 import '../domain/index.dart';
@@ -6,16 +7,18 @@ import '../player/player_model.dart';
 import 'index_model.dart';
 
 class IndexDialog extends StatelessWidget {
-  const IndexDialog(this.usersActionState,
+  const IndexDialog(this.usersActionState, this.youtube,
       {this.currentPositionDisplayedInAddIndexDialog, this.index, Key? key})
       : super(key: key);
 
   //　add, update, deleteを判別するためのenum　UsersActionState
   final UsersActionState usersActionState;
-  //　indexのtitleを受け取るために変数を用意。
-  final Index? index;
+  // Youtubeを受け取る
+  final Youtube youtube;
   // player_pageからのcurrentPositionを受け取るために変数を用意。
   final Duration? currentPositionDisplayedInAddIndexDialog;
+  //　indexのtitleを受け取るために変数を用意。
+  final Index? index;
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +35,7 @@ class IndexDialog extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     TextField(
-                      controller: model.addIndexDialogTextEditingController,
+                      controller: model.indexDialogTextEditingController,
                       decoration: const InputDecoration(
                         hintText: 'index name',
                       ),
@@ -48,13 +51,12 @@ class IndexDialog extends StatelessWidget {
                 );
 
               case UsersActionState.update:
-                model.addIndexDialogTextEditingController.text =
-                    index!.indexTitle;
+                model.indexDialogTextEditingController.text = index!.indexTitle;
                 return Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     TextField(
-                      controller: model.addIndexDialogTextEditingController,
+                      controller: model.indexDialogTextEditingController,
                       autofocus: true,
                       keyboardType: TextInputType.text,
                     ),
@@ -66,10 +68,9 @@ class IndexDialog extends StatelessWidget {
                   ],
                 );
               case UsersActionState.delete:
-                model.addIndexDialogTextEditingController.text =
-                    index!.indexTitle;
+                model.indexDialogTextEditingController.text = index!.indexTitle;
                 return Text(
-                    '『${model.addIndexDialogTextEditingController.text}』を削除してもよろしいですか？');
+                    '『${model.indexDialogTextEditingController.text}』を削除してもよろしいですか？');
             }
           },
         ),
@@ -115,7 +116,7 @@ class IndexDialog extends StatelessWidget {
   Future<void> addIndex(BuildContext context, IndexModel model) async {
     try {
       // 入力フォームに入力された文字をmodelのindexTitleに入れる。
-      model.indexTitle = model.addIndexDialogTextEditingController.text;
+      model.indexTitle = model.indexDialogTextEditingController.text;
 
       // Firestoreにint currentPositionを入れるためにDurationを整形する。
       // currentPositionDisplayedInAddIndexDialogをintに変換して
@@ -148,14 +149,16 @@ class IndexDialog extends StatelessWidget {
   Future<void> updateIndex(BuildContext context, IndexModel model) async {
     try {
       // 入力フォームに入力された文字をmodelのindexTitleに入れる。
-      model.indexTitle = model.addIndexDialogTextEditingController.text;
+      model.indexTitle = model.indexDialogTextEditingController.text;
 
       // Firestoreにint currentPositionを入れるためにDurationを整形する。
       // currentPositionDisplayedInAddIndexDialogをintに変換し
       // modelのcurrentPositionに持たせる。
       model.currentPosition =
           currentPositionDisplayedInAddIndexDialog!.inMicroseconds;
-      await model.updateIndex(index!);
+
+      //　ここでYoutubeを渡せばいいのか？
+      await model.updateIndex(index!, youtube);
       Navigator.of(context).pop(model.indexTitle);
     } on FormatException catch (e) {
       await showDialog<AlertDialog>(
