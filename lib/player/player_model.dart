@@ -74,7 +74,7 @@ class PlayerModel extends ChangeNotifier {
   }
 
   // titleと停止した時の時間currentPositionをfirestoreから取得
-  Future<void> fetchIndex(Youtube youtube) async {
+  Future<void> fetchIndexes(Youtube youtube) async {
     // Firestoreのコレクションyoutubeのそれぞれのyoutubeが持っているドキュメントの中のコレクションindexesを取得する
     final document = await FirebaseFirestore.instance
         .collection('youtube')

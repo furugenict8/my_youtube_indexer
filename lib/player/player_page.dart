@@ -19,7 +19,7 @@ class PlayerPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<PlayerModel>(
       // ListView.builder実行の前にここで、fetchIndex()をやっておく
-      create: (_) => PlayerModel(youtube.videoId)..fetchIndex(youtube),
+      create: (_) => PlayerModel(youtube.videoId)..fetchIndexes(youtube),
       child: Consumer<PlayerModel>(
         builder: (context, model, child) {
           //Full screen対応のためのYoutubePlayerBuilder
@@ -84,7 +84,7 @@ class PlayerPage extends StatelessWidget {
                                     icon: const Icon(Icons.edit),
                                     onPressed: () async {
                                       final currentPositionDisplayedInAddIndexDialog =
-                                          model.currentPosition;
+                                          currentPosition;
 
                                       // Navigator.pop(model.indexTitle)をindexTitleで受け取る
                                       final indexTitle =
@@ -98,6 +98,7 @@ class PlayerPage extends StatelessWidget {
                                         builder: (BuildContext context) {
                                           return IndexDialog(
                                             UsersActionState.update,
+                                            youtube,
                                             currentPositionDisplayedInAddIndexDialog:
                                                 currentPositionDisplayedInAddIndexDialog,
                                             index: indexList[indexNumber],
@@ -115,7 +116,7 @@ class PlayerPage extends StatelessWidget {
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(snackBar);
                                       }
-                                      await model.fetchIndex(youtube);
+                                      await model.fetchIndexes(youtube);
                                     },
                                   ),
                                   // TODO(me): 削除もIconButton使って実装する。
@@ -136,6 +137,7 @@ class PlayerPage extends StatelessWidget {
                                         builder: (BuildContext context) {
                                           return IndexDialog(
                                             UsersActionState.delete,
+                                            youtube,
                                             index: indexList[indexNumber],
                                           );
                                         },
@@ -151,7 +153,7 @@ class PlayerPage extends StatelessWidget {
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(snackBar);
                                       }
-                                      await model.fetchIndex(youtube);
+                                      await model.fetchIndexes(youtube);
                                     },
                                   ),
                                 ],
@@ -186,6 +188,7 @@ class PlayerPage extends StatelessWidget {
                         builder: (BuildContext context) {
                           return IndexDialog(
                             UsersActionState.add,
+                            youtube,
                             currentPositionDisplayedInAddIndexDialog:
                                 currentPositionDisplayedInAddIndexDialog,
                           );
@@ -199,7 +202,7 @@ class PlayerPage extends StatelessWidget {
                         );
                         ScaffoldMessenger.of(context).showSnackBar(snackBar);
                       }
-                      await model.fetchIndex(youtube);
+                      await model.fetchIndexes(youtube);
                     },
                     tooltip: '押したら動画の現在時刻を取得して表示する',
                     child: const Icon(Icons.add),
