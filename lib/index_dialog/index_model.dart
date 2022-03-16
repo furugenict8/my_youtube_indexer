@@ -59,9 +59,13 @@ class IndexModel extends ChangeNotifier {
   }
 
   // indexを削除する。
-  Future<void> deleteIndex(Index index) async {
-    final document = FirebaseFirestore.instance.collection('indexes').doc(index
-        .documentID); // indexのイニシャライザでFirestoreのdocumentIDを取得し、documentに入れる。(14:28 Fires)
+  Future<void> deleteIndex(Index index, Youtube youtube) async {
+    final document = FirebaseFirestore.instance
+        .collection('youtube')
+        .doc(youtube.documentID)
+        .collection('indexes')
+        .doc(index
+            .documentID); // indexのイニシャライザでFirestoreのdocumentIDを取得し、documentに入れる。(14:28 Fires)
     deletedIndexTitle = index.indexTitle;
     await document.delete();
   }

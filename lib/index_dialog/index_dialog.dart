@@ -183,7 +183,7 @@ class IndexDialog extends StatelessWidget {
   // indexを追加する時の処理。
   Future<void> deleteIndex(BuildContext context, IndexModel model) async {
     //　選択されたListTileのindexを表示
-    await model.deleteIndex(index!);
+    await model.deleteIndex(index!, youtube);
     Navigator.of(context).pop(model.deletedIndexTitle);
   }
 }
