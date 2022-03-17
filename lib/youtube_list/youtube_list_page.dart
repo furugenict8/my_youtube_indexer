@@ -3,6 +3,7 @@ import 'package:my_youtube_indexer/youtube_list/youtube_list_model.dart';
 import 'package:provider/provider.dart';
 
 import '../player/player_page.dart';
+import '../youtube_dialog/youtube_dialog.dart';
 
 class YoutubeListPage extends StatelessWidget {
   const YoutubeListPage({
@@ -11,13 +12,14 @@ class YoutubeListPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('動画一覧'),
-      ),
-      body: ChangeNotifierProvider<YoutubeListModel>(
-        create: (_) => YoutubeListModel()..fetchVideoId(),
-        child: Consumer<YoutubeListModel>(builder: (context, model, child) {
+    return ChangeNotifierProvider<YoutubeListModel>(
+      // ListView.builder実行の前にここで、fetchIndex()をやっておく
+      create: (_) => YoutubeListModel()..fetchVideoId(),
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('動画一覧'),
+        ),
+        body: Consumer<YoutubeListModel>(builder: (context, model, child) {
           return ListView.builder(
             shrinkWrap: true,
             //　TODO(me): youtubeのListを取得してその長さを入れる。
@@ -46,15 +48,43 @@ class YoutubeListPage extends StatelessWidget {
             },
           );
         }),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // TODO(me): 動画のURLもしくはVideoIDを追加する処理
-          // TODO(me): 追加したらSnackBarを表示。
-        },
-        tooltip: '押したらyoutubeのURL入力ダイアログを表示',
-        child: const Icon(Icons.add),
+        floatingActionButton:
+            Consumer<YoutubeListModel>(builder: (context, model, child) {
+          return FloatingActionButton(
+            onPressed: () async {
+              // TODO(me): 動画のURLもしくはVideoIDを追加する処理
+              // TODO(me): 追加したらSnackBarを表示。
+              final videoId = await showDialog<String>(
+                context: context,
+
+                // ダイアログ表示時の背景をタップしたときにダイアログを閉じてよいかどうか
+                barrierDismissible: false,
+
+                // TODO(me): AlertDialogの見た目をよくしたい。
+                builder: (BuildContext context) {
+                  return const YoutubeDialog(
+                    UsersYoutubeActionState.add,
+                  );
+                },
+              );
+              // addedがtrue(つまり、indexが追加された時)ならSnackBarを表示する。
+              if (videoId != null) {
+                final snackBar = SnackBar(
+                  backgroundColor: Colors.green,
+                  content: Text('"$videoId"を追加しました！'),
+                );
+                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+              }
+              await model.fetchVideoId();
+            },
+            tooltip: '押したらyoutubeのURL入力ダイアログを表示',
+            child: const Icon(Icons.add),
+          );
+        }),
       ),
     );
   }
 }
+
+// userがyoutubeでadd、update、deleteのどのボタンをタップしたかを判別するためのenum
+enum UsersYoutubeActionState { add, update, delete }

@@ -119,8 +119,6 @@ class PlayerPage extends StatelessWidget {
                                       await model.fetchIndexes(youtube);
                                     },
                                   ),
-                                  // TODO(me): 削除もIconButton使って実装する。
-
                                   // 削除ボタン
                                   IconButton(
                                     icon: const Icon(Icons.delete),
