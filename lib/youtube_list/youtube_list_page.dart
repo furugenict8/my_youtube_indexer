@@ -35,7 +35,10 @@ class YoutubeListPage extends StatelessWidget {
                   Navigator.push<Widget>(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => PlayerPage(youtube)),
+                      builder: (context) => PlayerPage(
+                        youtube: youtube,
+                      ),
+                    ),
                   );
                 },
                 trailing: IconButton(
