@@ -6,8 +6,11 @@ import 'package:provider/provider.dart';
 import '../youtube_list/youtube_list_page.dart';
 
 class YoutubeDialog extends StatelessWidget {
-  const YoutubeDialog(this.usersYoutubeActionState, {this.youtube, Key? key})
-      : super(key: key);
+  const YoutubeDialog({
+    Key? key,
+    required this.usersYoutubeActionState,
+    this.youtube,
+  }) : super(key: key);
 
   //　add, update, deleteを判別するためのenum　UsersYoutubeActionState
   final UsersYoutubeActionState usersYoutubeActionState;

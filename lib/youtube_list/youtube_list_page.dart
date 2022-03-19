@@ -66,7 +66,7 @@ class YoutubeListPage extends StatelessWidget {
                 // TODO(me): AlertDialogの見た目をよくしたい。
                 builder: (BuildContext context) {
                   return const YoutubeDialog(
-                    UsersYoutubeActionState.add,
+                    usersYoutubeActionState: UsersYoutubeActionState.add,
                   );
                 },
               );

@@ -9,7 +9,9 @@ import '../domain/youtube.dart';
 //　なのでコンストラクタ内でinitすればよさそう。
 // salon appと違うけど。
 class PlayerModel extends ChangeNotifier {
-  PlayerModel(this.videoId) {
+  PlayerModel({
+    required this.videoId,
+  }) {
     init();
   }
 

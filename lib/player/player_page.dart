@@ -19,7 +19,9 @@ class PlayerPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<PlayerModel>(
       // ListView.builder実行の前にここで、fetchIndex()をやっておく
-      create: (_) => PlayerModel(youtube.videoId)..fetchIndexes(youtube),
+      create: (_) => PlayerModel(
+        videoId: youtube.videoId,
+      )..fetchIndexes(youtube),
       child: Consumer<PlayerModel>(
         builder: (context, model, child) {
           //Full screen対応のためのYoutubePlayerBuilder
@@ -190,8 +192,8 @@ class EditButton extends StatelessWidget {
           // TODO(me): AlertDialogの見た目をよくしたい。
           builder: (BuildContext context) {
             return IndexDialog(
-              UsersActionState.update,
-              youtube,
+              usersActionState: UsersActionState.update,
+              youtube: youtube,
               currentPositionDisplayedInAddIndexDialog:
                   currentPositionDisplayedInAddIndexDialog,
               index: indexList[indexNumber],
@@ -244,8 +246,8 @@ class DeleteButton extends StatelessWidget {
           // TODO(me): AlertDialogの見た目をよくしたい。
           builder: (BuildContext context) {
             return IndexDialog(
-              UsersActionState.delete,
-              youtube,
+              usersActionState: UsersActionState.delete,
+              youtube: youtube,
               index: indexList[indexNumber],
             );
           },
@@ -297,8 +299,8 @@ class AddIndexButton extends StatelessWidget {
           // TODO(me): AlertDialogの見た目をよくしたい。
           builder: (BuildContext context) {
             return IndexDialog(
-              UsersActionState.add,
-              youtube,
+              usersActionState: UsersActionState.add,
+              youtube: youtube,
               currentPositionDisplayedInAddIndexDialog:
                   currentPositionDisplayedInAddIndexDialog,
             );
