@@ -88,6 +88,3 @@ class YoutubeListPage extends StatelessWidget {
     );
   }
 }
-
-// userがyoutubeでadd、update、deleteのどのボタンをタップしたかを判別するためのenum
-enum UsersYoutubeActionState { add, update, delete }

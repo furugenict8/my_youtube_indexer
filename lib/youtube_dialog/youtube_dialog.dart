@@ -3,7 +3,7 @@ import 'package:my_youtube_indexer/domain/youtube.dart';
 import 'package:my_youtube_indexer/youtube_dialog/youtube_dialog_model.dart';
 import 'package:provider/provider.dart';
 
-import '../youtube_list/youtube_list_page.dart';
+import '../youtube_list/youtube_list_model.dart';
 
 class YoutubeDialog extends StatelessWidget {
   const YoutubeDialog({

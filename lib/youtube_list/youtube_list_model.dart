@@ -16,3 +16,6 @@ class YoutubeListModel extends ChangeNotifier {
     notifyListeners();
   }
 }
+
+// userがyoutubeでadd、update、deleteのどのボタンをタップしたかを判別するためのenum
+enum UsersYoutubeActionState { add, update, delete }
