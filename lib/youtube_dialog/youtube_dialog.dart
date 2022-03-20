@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:my_youtube_indexer/domain/youtube.dart';
 import 'package:my_youtube_indexer/youtube_dialog/youtube_dialog_model.dart';
 import 'package:provider/provider.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 import '../youtube_list/youtube_list_model.dart';
 
@@ -34,7 +35,7 @@ class YoutubeDialog extends StatelessWidget {
                     TextField(
                       controller: model.youtubeDialogTextEditingController,
                       decoration: const InputDecoration(
-                        hintText: 'videoId',
+                        hintText: 'http://youryoutubeadress',
                       ),
                       autofocus: true,
                       keyboardType: TextInputType.text,
@@ -105,8 +106,11 @@ class YoutubeDialog extends StatelessWidget {
   Future<void> addYoutube(
       BuildContext context, YoutubeDialogModel model) async {
     try {
-      // 入力フォームに入力された文字をmodelのindexTitleに入れる。
-      model.videoId = model.youtubeDialogTextEditingController.text;
+      // TextFieldに入力されたurlをvideoIdに変換。
+      final url = model.youtubeDialogTextEditingController.text;
+      model.videoId = YoutubePlayer.convertUrlToId(
+        url,
+      )!;
 
       await model.addYoutube();
       Navigator.of(context).pop(model.videoId);
