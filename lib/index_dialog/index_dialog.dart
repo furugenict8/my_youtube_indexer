@@ -7,9 +7,13 @@ import '../player/player_model.dart';
 import 'index_model.dart';
 
 class IndexDialog extends StatelessWidget {
-  const IndexDialog(this.usersActionState, this.youtube,
-      {this.currentPositionDisplayedInAddIndexDialog, this.index, Key? key})
-      : super(key: key);
+  const IndexDialog({
+    Key? key,
+    required this.usersActionState,
+    required this.youtube,
+    this.currentPositionDisplayedInAddIndexDialog,
+    this.index,
+  }) : super(key: key);
 
   //　add, update, deleteを判別するためのenum　UsersActionState
   final UsersActionState usersActionState;

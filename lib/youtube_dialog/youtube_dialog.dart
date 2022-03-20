@@ -3,11 +3,14 @@ import 'package:my_youtube_indexer/domain/youtube.dart';
 import 'package:my_youtube_indexer/youtube_dialog/youtube_dialog_model.dart';
 import 'package:provider/provider.dart';
 
-import '../youtube_list/youtube_list_page.dart';
+import '../youtube_list/youtube_list_model.dart';
 
 class YoutubeDialog extends StatelessWidget {
-  const YoutubeDialog(this.usersYoutubeActionState, {this.youtube, Key? key})
-      : super(key: key);
+  const YoutubeDialog({
+    Key? key,
+    required this.usersYoutubeActionState,
+    this.youtube,
+  }) : super(key: key);
 
   //　add, update, deleteを判別するためのenum　UsersYoutubeActionState
   final UsersYoutubeActionState usersYoutubeActionState;

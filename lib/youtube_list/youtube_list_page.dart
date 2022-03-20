@@ -35,7 +35,10 @@ class YoutubeListPage extends StatelessWidget {
                   Navigator.push<Widget>(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => PlayerPage(youtube)),
+                      builder: (context) => PlayerPage(
+                        youtube: youtube,
+                      ),
+                    ),
                   );
                 },
                 trailing: IconButton(
@@ -63,7 +66,7 @@ class YoutubeListPage extends StatelessWidget {
                 // TODO(me): AlertDialogの見た目をよくしたい。
                 builder: (BuildContext context) {
                   return const YoutubeDialog(
-                    UsersYoutubeActionState.add,
+                    usersYoutubeActionState: UsersYoutubeActionState.add,
                   );
                 },
               );
@@ -85,6 +88,3 @@ class YoutubeListPage extends StatelessWidget {
     );
   }
 }
-
-// userがyoutubeでadd、update、deleteのどのボタンをタップしたかを判別するためのenum
-enum UsersYoutubeActionState { add, update, delete }
