@@ -111,7 +111,6 @@ class YoutubeDialog extends StatelessWidget {
       model.videoId = YoutubePlayer.convertUrlToId(
         url,
       )!;
-
       await model.addYoutube();
       Navigator.of(context).pop(model.videoId);
     } on FormatException catch (e) {
