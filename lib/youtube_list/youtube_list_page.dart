@@ -17,19 +17,24 @@ class YoutubeListPage extends StatelessWidget {
       create: (_) => YoutubeListModel()..fetchVideoId(),
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('動画一覧'),
+          title: const Text('動画リスト'),
         ),
         body: Consumer<YoutubeListModel>(builder: (context, model, child) {
           return ListView.builder(
             shrinkWrap: true,
-            //　TODO(me): youtubeのListを取得してその長さを入れる。
             itemCount: model.youtubeList.length,
             itemBuilder: (context, indexNumber) {
               final youtube = model.youtubeList[indexNumber];
               final videoId = youtube.videoId;
+              // TODO(me): videoIdではなくtitleを表示する。
+              // 　これでvideoIdのtitleが取れないのがわからない。
+              //  youtube_player_flutterのサンプルをみます。
+              //  ```dart
+              model.fetchYoutubeTitle(videoId);
+              // ```
               return ListTile(
                 leading: const Text('youtubeのサムネ'),
-                title: Text('title: $videoId'),
+                title: Text('title: ${model.title}'),
                 onTap: () {
                   // TODO(me): player_pageへ画面遷移、VideoIDをplayer_pageに渡す。
                   Navigator.push<Widget>(
