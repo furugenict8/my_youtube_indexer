@@ -3,6 +3,9 @@ youtubeにインデックスをつけるアプリ
 好きなyoutube動画を動画リストに追加。  
 追加した動画のすきな時間にindexをつけて、アプリ上で保存できる。  
 
+![Simulator Screen Recording - iPhone SE (3rd generation) - 2022-05-12 at 14 24 27](https://user-images.githubusercontent.com/59996883/167998207-b4caa712-3ead-492d-9bb5-6e0b14476c79.gif)
+
+
 # 環境
 Flutter 2.10.0  
 Dart 2.16.0  
